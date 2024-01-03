@@ -2,6 +2,7 @@ export const lightTheme = {
     isDark: false,
     colors: {
         background: "#ffffff",
+        foreground: "#000000",
         statusBar: "rgba(255,255,255,0.8)",
         primary: "#2aa2a2",
         error: "#d74942",
