@@ -1,7 +1,7 @@
 import { View, Text, TouchableNativeFeedback } from "react-native";
 import { useNavigation } from "../navigation";
 import { PrimaryButton } from "../components/PrimaryButton";
-import FeatherIcons from '@expo/vector-icons/Feather';
+import { AlertTriangle } from "react-native-feather";
 import { SecondaryButton } from "../components/SecondaryButton";
 import { ErrorType, useGlobalStore } from "../state/GlobalStore";
 import { CenteredFillView } from "../styles/styles";
@@ -26,7 +26,7 @@ export function ErrorScreen(){
     }
 
     return <CenteredFillView>
-        <FeatherIcons name='alert-triangle' color={"#000"} size={60} />
+        <AlertTriangle color={"#000"} size={60} />
         <ErrorText>{errorMessage}</ErrorText>
         <PrimaryButton
             onPress={()=>{

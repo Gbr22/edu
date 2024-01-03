@@ -1,6 +1,6 @@
 import { TextInput, View, Text, TouchableNativeFeedback, ActivityIndicator } from "react-native";
 import { create } from "zustand";
-import FeatherIcons from '@expo/vector-icons/Feather';
+import { X, ArrowRight } from "react-native-feather";
 import { useNavigation } from "../../navigation";
 import { doesSchoolExist } from "../../data/api";
 import { useGlobalStore } from "../../state/GlobalStore";
@@ -106,6 +106,8 @@ export function IdInput(){
         isLoading = false;
     }
 
+    let Icon = isValidSchoolId == false ? X : ArrowRight;
+
     return <Container>
         <UrlContainer>
             <UrlText>http://</UrlText>
@@ -134,7 +136,7 @@ export function IdInput(){
             >
                 <ButtonInner isValidSchoolId={isValidSchoolId}>
                     { isLoading && <ActivityIndicator size={"small"} color={"#fff"} /> }
-                    { !isLoading && <FeatherIcons name={isValidSchoolId == false ? "x" : "arrow-right"} size={25} color={"#fff"}></FeatherIcons> }
+                    { !isLoading && <Icon size={25} color={"#fff"}></Icon> }
                 </ButtonInner>
             </TouchableNativeFeedback>
         </ButtonOuter>
