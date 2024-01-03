@@ -26,7 +26,7 @@ export default function App() {
                     <Stack.Screen name="SchoolHome" component={SchoolHomeScreen} />
                     <Stack.Screen name="TimetableViewer" component={TimetableViewerScreen} />
                 </Stack.Navigator>
-                <StatusBar barStyle={theme.isDark ? "dark-content" : "light-content"} backgroundColor={theme.colors.statusBar} />
+                <StatusBar barStyle={theme.isDark ? "light-content" : "dark-content"} backgroundColor={theme.colors.statusBar} />
             </NavigationContainer>
         </ThemeProvider>
     );
