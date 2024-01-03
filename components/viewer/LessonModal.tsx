@@ -5,6 +5,10 @@ import { useGlobalStore } from "../../state/GlobalStore";
 import styled from "../../styles/styled-components";
 import { Centered, getCardColor } from "../../styles/styles";
 
+const SimpleText = styled.Text`
+    color: ${({theme})=>theme.colors.foreground};
+`
+
 const Overlay = styled.View`
     ${Centered}
     flex: 1;
@@ -18,19 +22,22 @@ const InnerContainer = styled.View<{ card: CardData }>`
     elevation: 1;
     background-color: ${({card,theme})=>getCardColor(card,theme)};
 `
-const SubjectText = styled.Text`
+const SubjectText = styled(SimpleText)`
     font-size: 19px;
     text-align: center;
+    color: ${({theme})=>theme.colors.foreground};
 `
 const QuickInfo = styled.View`
     ${Centered}
     flex-direction: row;
     margin: 12px 0;
+    color: ${({theme})=>theme.colors.foreground};
 `
-const PeriodText = styled.Text`
+const PeriodText = styled(SimpleText)`
     font-weight: bold;
     font-size: 21px;
     margin-right: 11px;
+    color: ${({theme})=>theme.colors.foreground};
 `
 
 interface LessonModalState {
@@ -79,15 +86,15 @@ function ModalInner(props: {card: CardData}){
         <QuickInfo>
             <PeriodText>{periodText}</PeriodText>
             <View>
-                <Text>{`${startPeriod.startTime}-${endPeriod.endTime}`}</Text>
-                <Text style={{opacity: 0.75}}>{getShortClassroomText(card)}</Text>
+                <SimpleText>{`${startPeriod.startTime}-${endPeriod.endTime}`}</SimpleText>
+                <SimpleText style={{opacity: 0.75}}>{getShortClassroomText(card)}</SimpleText>
             </View>
         </QuickInfo>
         { details.map(([title,text])=>{
-            return <Text key={title}>
-                <Text style={{fontWeight: "bold"}}>{title}</Text>
-                <Text>{": "+text}</Text>
-            </Text>
+            return <SimpleText key={title}>
+                <SimpleText style={{fontWeight: "bold"}}>{title}</SimpleText>
+                <SimpleText>{": "+text}</SimpleText>
+            </SimpleText>
         }) }
     </InnerContainer>
 }
