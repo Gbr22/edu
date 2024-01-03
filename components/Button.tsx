@@ -1,9 +1,9 @@
 import { TouchableNativeFeedback, View, Text } from "react-native";
-import FeatherIcons from '@expo/vector-icons/Feather';
+import * as FeatherIcons from "react-native-feather";
 import styled from "styled-components/native";
 import { Centered } from "../styles/styles";
 
-type FeatherIconsName = React.ComponentProps<typeof FeatherIcons>['name'];
+type FeatherIconsName = keyof FeatherIcons;
 
 const OuterContainer = styled.View<{ backgroundColor: string }>`
     background-color: ${props=>props.backgroundColor};
@@ -38,12 +38,13 @@ interface ButtonProps {
 }
 
 export function Button({onPress, icon, text, backgroundColor, color}: ButtonProps){
+    let Icon = FeatherIcons[icon];
     return <OuterContainer backgroundColor={backgroundColor}>
         <TouchableNativeFeedback
             onPress={onPress}
         >
             <InnerContainer>
-                <FeatherIcons name={icon} color={color} size={25} />
+                <Icon color={color} size={25} />
                 <ButtonText color={color}>{text}</ButtonText>
             </InnerContainer>
         </TouchableNativeFeedback>

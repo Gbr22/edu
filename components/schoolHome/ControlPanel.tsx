@@ -1,7 +1,7 @@
 import { Link } from "@react-navigation/native";
 import { TouchableNativeFeedback, View, Text } from "react-native";
 import { useGlobalStore } from "../../state/GlobalStore";
-import FeatherIcons from '@expo/vector-icons/Feather';
+import { Settings } from "react-native-feather";
 import { Centered, CenteredView } from "../../styles/styles";
 import styled from "../../styles/styled-components";
 
@@ -61,7 +61,7 @@ export function ControlPanel(){
             </VersionOuterContainer>
             <Link to={"/"}>
                 <SettingsButton>
-                    <FeatherIcons name="settings" size={18} color={color}></FeatherIcons>
+                    <Settings width={18} color={color} />
                 </SettingsButton>
             </Link>
         </ControlPanelOuter>

@@ -1,7 +1,7 @@
 import { View, Text, TouchableNativeFeedback } from "react-native";
 import { useNavigation } from "../navigation";
 import { PrimaryButton } from "../components/PrimaryButton";
-import FeatherIcons from '@expo/vector-icons/Feather';
+import { Meh } from "react-native-feather";
 import { CenteredFillView } from '../styles/styles';
 import { ErrorText } from "./ErrorScreen";
 
@@ -10,7 +10,7 @@ export function NoTimetablesScreen(){
     let navigation = useNavigation();
 
     return <CenteredFillView>
-        <FeatherIcons name='meh' color={"#000"} size={60} />
+        <Meh color={"#000"} width={60} />
         <ErrorText>No timetables available</ErrorText>
         <PrimaryButton
             onPress={()=>{
