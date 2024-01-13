@@ -1,4 +1,4 @@
-package com.edu
+package sh.kess.edu
 
 import android.app.Application
 import com.facebook.react.PackageList
