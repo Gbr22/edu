@@ -1,4 +1,22 @@
-import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
+import { DefaultTheme, type Theme as NavigationTheme } from '@react-navigation/native';
+
+type ThemeColors = {
+    [key in (
+        "background" |
+        "foreground" |
+        "statusBar" |
+        "primary" | 
+        "error" |
+        "lightElement" |
+        "lighterElement"
+    )]: string
+}
+
+export interface Theme {
+    isDark: boolean
+    colors: ThemeColors,
+    navigation: NavigationTheme
+}
 
 export const lightTheme = {
     isDark: false,
@@ -24,8 +42,6 @@ export const lightTheme = {
             notification: 'rgb(255, 69, 58)',
         },
     }
-};
+} as const satisfies Theme;
 
 // TODO: darkTheme
-
-export type Theme = typeof lightTheme;

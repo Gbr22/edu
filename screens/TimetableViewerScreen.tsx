@@ -11,8 +11,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { LessonModal } from '../components/viewer/LessonModal';
 import { ErrorScreen } from './ErrorScreen';
 import { LoadingScreen } from './LoadingScreen';
-import { Class } from '../data/classes';
-import styled, { css } from '../styles/styled-components';
+import styled from 'styled-components/native';
 import { BackButton } from '../components/viewer/BackButton';
 import { Periods } from '../components/viewer/Periods';
 

@@ -3,11 +3,11 @@ import { getTimetable as getTimetableFromApi, getVersions as getVersionsFromApi 
 import { Timetable } from '../data/timetable'
 import { Versions } from '../data/versions'
 import { getTimetableFromCache, getVersionsFromCache } from '../storage/cache'
-import NetInfo, { fetch } from "@react-native-community/netinfo";
+import { fetch as getNetInfo } from "@react-native-community/netinfo";
 
 export enum ErrorType {
     offline,
-    unkown
+    unknown
 }
 
 interface GlobalState {
@@ -41,7 +41,7 @@ export const useGlobalStore = create<GlobalState>((set,get)=>({
             error: undefined
         })
 
-        const networkState = await fetch();
+        const networkState = await getNetInfo();
         const isInternetReachable = networkState.isConnected;
 
         get().updateTimetableFromCache(schoolId,timetableId).catch(err=>{
@@ -54,7 +54,7 @@ export const useGlobalStore = create<GlobalState>((set,get)=>({
         if (isInternetReachable){
             get().updateTimetableFromApi(schoolId,timetableId).catch(err=>{
                 console.warn(err);
-                set({error: ErrorType.unkown})
+                set({error: ErrorType.unknown})
             })
         }
     },

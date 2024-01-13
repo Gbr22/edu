@@ -1,7 +1,7 @@
 import { TouchableNativeFeedback } from "react-native";
 import { Class } from "../../data/classes";
 import { useNavigation } from "../../navigation";
-import styled from "../../styles/styled-components";
+import styled from "styled-components/native";
 import { Centered } from "../../styles/styles";
 
 const OuterContainer = styled.View`

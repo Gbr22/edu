@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native'
 import PagerView from 'react-native-pager-view';
 import { create } from 'zustand';
 import { useGlobalStore } from '../../state/GlobalStore'
-import styled from '../../styles/styled-components';
+import styled from 'styled-components/native';
 import { Centered } from '../../styles/styles';
 
 const Container = styled.View`

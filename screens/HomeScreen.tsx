@@ -1,4 +1,3 @@
-import { View, Image } from 'react-native';
 import { IdInput } from '../components/home/IdInput';
 import { CenteredFillView } from '../styles/styles';
 import styled from 'styled-components/native';

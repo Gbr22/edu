@@ -2,7 +2,7 @@ import { Modal, View, Text, TouchableWithoutFeedback } from "react-native";
 import { create } from "zustand";
 import { CardData, getClassroomText, getGroupText, getShortClassroomText, getTeacherText } from "../../data/cards";
 import { useGlobalStore } from "../../state/GlobalStore";
-import styled from "../../styles/styled-components";
+import styled from "styled-components/native";
 import { Centered, getCardColor } from "../../styles/styles";
 
 const SimpleText = styled.Text`

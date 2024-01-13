@@ -1,12 +1,12 @@
 import seedrandom from 'seedrandom';
-import styled, { css } from './styled-components';
+import styled, { css } from 'styled-components/native';
 import { CardData } from '../data/cards';
 import { Theme } from './theme';
 
 export const Centered = css`
     justify-content: center;
     align-items: center;
-`
+`;
 
 export const FillView = styled.View`
     flex: 1;

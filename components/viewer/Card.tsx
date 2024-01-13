@@ -2,7 +2,7 @@ import { View, Text, TouchableNativeFeedback } from 'react-native';
 import { getCardColor } from "../../styles/styles";
 import { CardData, getShortClassroomText, getGroupText, getTeacherText, isPlaceholderCardData, PlaceholderCardData, isCardData } from "../../data/cards";
 import { useLessonModalStore } from "./LessonModal";
-import styled from "../../styles/styled-components";
+import styled from "styled-components/native";
 import { Sizes } from './Sizes';
 
 const Placeholder = styled.View`
