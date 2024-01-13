@@ -12,7 +12,8 @@ const Period = styled.View`
 `
 const PeriodText = styled.Text`
     font-size: 18px;
-    color: #2F2F2F;
+    color: ${({theme})=>theme.colors.foreground};
+    opacity: 0.7;
 `
 
 export function Periods() {

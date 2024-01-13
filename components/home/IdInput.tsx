@@ -65,7 +65,7 @@ const UrlContainer = styled.View`
 `;
 const TextStyle = css`
     font-size: 16px;
-    color: #000000;
+    color: ${({theme})=>theme.colors.foreground};
 `;
 const UrlText = styled.Text`
     ${TextStyle}

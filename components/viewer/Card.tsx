@@ -13,7 +13,7 @@ const Placeholder = styled.View`
 const CardText = styled.Text<{ align: "left" | "right" | "center" }>`
     font-size: 14px;
     line-height: 14px;
-    color: #000;
+    color: ${({theme})=>theme.colors.foreground};
     text-align: ${props=>props.align};
 `
 const CardOuter = styled.View<{ height: number, card: CardData }>`

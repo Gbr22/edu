@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { ThemeContext } from "../styles/theme-context";
+import { ThemeContext } from "../styles/useTheme";
 import { Button, SpecializedButtonProps } from "./Button";
 
 export function SecondaryButton(props: SpecializedButtonProps){

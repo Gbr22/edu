@@ -23,12 +23,13 @@ const DayInner = styled.View<{ isActive: boolean }>`
     width: ${circleSize}px;
     height: ${circleSize}px;
     border-radius: ${circleSize}px;
-    background-color: ${({isActive})=>isActive ? "#0074D921" : "transparent"};
+    background-color: ${({isActive,theme})=>isActive ? "#0074D921" : "transparent"};
 `
 const DayText = styled.Text<{ isActive: boolean }>`
     font-size: 15px;
     font-weight: bold;
-    color: ${({isActive})=>isActive ? "#0074D9" : "#3C3C3C"};
+    color: ${({isActive, theme})=>isActive ? "#0074D9" : theme.colors.foreground};
+    opacity: ${({isActive,theme})=>isActive ? 1: (theme.isDark ? 0.8 : 0.9)};
 `
 
 interface Props {

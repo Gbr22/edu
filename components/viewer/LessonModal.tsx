@@ -12,7 +12,7 @@ const SimpleText = styled.Text`
 const Overlay = styled.View`
     ${Centered}
     flex: 1;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: ${({theme})=>theme.colors.modalBackdrop};
 `
 const InnerContainer = styled.View<{ card: CardData }>`
     border-radius: 18px;
