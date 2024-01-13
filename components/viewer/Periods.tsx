@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { View, Text } from "react-native"
 import { useGlobalStore } from "../../state/GlobalStore";
-import styled from "../../styles/styled-components";
+import styled from "styled-components/native";
 import { Centered } from "../../styles/styles";
 import { Sizes } from "./Sizes";
 

@@ -1,12 +1,12 @@
-import { TextInput, View, Text, TouchableNativeFeedback, ActivityIndicator } from "react-native";
+import { TouchableNativeFeedback, ActivityIndicator } from "react-native";
 import { create } from "zustand";
 import { X, ArrowRight } from "react-native-feather";
 import { useNavigation } from "../../navigation";
 import { doesSchoolExist } from "../../data/api";
 import { useGlobalStore } from "../../state/GlobalStore";
-import NetInfo, { fetch } from "@react-native-community/netinfo";
+import { fetch as getNetInfo } from "@react-native-community/netinfo";
 import { doesSchoolExistInCache } from "../../storage/cache";
-import styled, { css } from "../../styles/styled-components";
+import styled, { css } from "styled-components/native";
 import { Centered } from "../../styles/styles";
 
 interface State {
@@ -27,7 +27,7 @@ let useStore = create<State>(set=>({
         clearTimeout(validationTimeout);
         if (schoolId != ""){
             validationTimeout = setTimeout(async ()=>{
-                const networkState = await fetch();
+                const networkState = await getNetInfo();
                 const isInternetReachable = networkState.isConnected;
                 let checkSchool = isInternetReachable ? doesSchoolExist : doesSchoolExistInCache;
                 checkSchool(schoolId).then(isValidSchoolId=>{
@@ -48,7 +48,7 @@ const Container = styled.View`
     flex-direction: row;
     max-width: 100%;
     padding: 0 7px;
-`
+`;
 const UrlContainer = styled.View`
     ${Centered}
     flex-direction: row;
@@ -57,11 +57,11 @@ const UrlContainer = styled.View`
     border-radius: ${borderRadius}px;
     padding: 0 14px;
     flex-shrink: 1;
-`
+`;
 const TextStyle = css`
     font-size: 16px;
-    color: #000;
-`
+    color: #000000;
+`;
 const UrlText = styled.Text`
     ${TextStyle}
 `
@@ -136,7 +136,7 @@ export function IdInput(){
             >
                 <ButtonInner isValidSchoolId={isValidSchoolId}>
                     { isLoading && <ActivityIndicator size={"small"} color={"#fff"} /> }
-                    { !isLoading && <Icon size={25} color={"#fff"}></Icon> }
+                    { !isLoading && <Icon width={25} color={"#fff"}></Icon> }
                 </ButtonInner>
             </TouchableNativeFeedback>
         </ButtonOuter>

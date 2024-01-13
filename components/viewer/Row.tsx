@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import { CardData, getCardKey, getCardsInRow, PlaceholderCardData } from "../../data/cards";
 import { useGlobalStore } from "../../state/GlobalStore";
-import styled from "../../styles/styled-components";
+import styled from "styled-components/native";
 import { Card } from "./Card";
 import { Sizes } from "./Sizes";
 

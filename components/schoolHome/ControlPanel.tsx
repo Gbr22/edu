@@ -3,7 +3,7 @@ import { TouchableNativeFeedback, View, Text } from "react-native";
 import { useGlobalStore } from "../../state/GlobalStore";
 import { Settings } from "react-native-feather";
 import { Centered, CenteredView } from "../../styles/styles";
-import styled from "../../styles/styled-components";
+import styled from "styled-components/native";
 
 let size = 36.5;
 let borderRadius = 11;
