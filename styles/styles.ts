@@ -25,6 +25,9 @@ export function getCardColor(card: CardData, theme: Theme){
     if (card.groups[0]?.isEntireClass){
         return theme.colors.lighterElement;
     }
-
-    return `hsl(${Math.floor(seedrandom(card.groups[0]?.id)()*300)}, 100%, 75%)`;
+    if (theme.isDark) {
+        return `hsl(${Math.floor(seedrandom(card.groups[0]?.id)()*300)}, 40%, 28%)`;
+    } else {
+        return `hsl(${Math.floor(seedrandom(card.groups[0]?.id)()*300)}, 100%, 75%)`;
+    }
 }

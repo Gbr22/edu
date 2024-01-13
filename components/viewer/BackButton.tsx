@@ -18,7 +18,8 @@ const InnerContainer = styled.View`
 `
 const ButtonText = styled.Text`
     font-size: 16px;
-    color: #515151;
+    color: ${({theme})=>theme.colors.foreground};
+    opacity: 0.9;
 `
 
 export function BackButton({classData}: {classData: Class}){

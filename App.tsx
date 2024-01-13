@@ -3,15 +3,18 @@ import { SchoolHomeScreen } from './screens/SchoolHomeScreen';
 import { TimetableViewerScreen } from './screens/TimetableViewerScreen';
 import { Stack, stackLinking } from './navigation';
 import { NavigationContainer } from '@react-navigation/native';
-import { lightTheme } from './styles/theme';
 import { ThemeProvider } from 'styled-components/native';
 import { StatusBar } from "react-native";
-import { ThemeContext } from './context/ThemeContext';
+import { ThemeContext } from './styles/ThemeContext';
 import { AppWrapper } from './components/AppWrapper';
+import { lightTheme } from './styles/lightTheme';
+import { darkTheme } from './styles/darkTheme';
+import { useColorScheme } from 'react-native';
+import { useTheme } from './styles/useTheme';
 
 export default function App() {
 
-    let theme = lightTheme;
+    const theme = useTheme();
 
     return (
         <ThemeContext.Provider value={theme}>

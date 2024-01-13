@@ -1,9 +1,9 @@
-import { useContext, type ReactNode } from "react";
-import { ThemeContext } from "../context/ThemeContext";
+import { type ReactNode } from "react";
+import { useThemeContext } from "../styles/ThemeContext";
 import { View } from "react-native";
 
 export function AppWrapper({ children }: { children: ReactNode }) {
-    const theme = useContext(ThemeContext);
+    const theme = useThemeContext();
 
     return <View
         style={{

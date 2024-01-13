@@ -5,6 +5,7 @@ import styled from 'styled-components/native';
 import { getLastSchoolId } from '../storage/preferences';
 import { openSchool, useNavigation } from '../navigation';
 import { View } from 'react-native';
+import { useThemeContext } from '../styles/ThemeContext';
 
 let Illustration = styled.Image`
     width: 100%;
@@ -17,6 +18,7 @@ let isFirstLoad: boolean = true;
 export function HomeScreen(){
     const navigation = useNavigation();
     const [isChecking, setIsChecking] = useState(isFirstLoad);
+    const theme = useThemeContext();
 
     useEffect(()=>{
         if (isFirstLoad){
@@ -39,9 +41,14 @@ export function HomeScreen(){
         return <CenteredFillView></CenteredFillView>;
     }
 
+    const imageSources = {
+        inverted: require("../assets/homepage-inverted.png"),
+        normal: require("../assets/homepage.png"),
+    }
+
     return <CenteredFillView>
         <Illustration
-            source={require("../assets/homepage.png")}
+            source={theme.isDark ? imageSources.inverted : imageSources.normal}
             resizeMode={"contain"}
         />
         <IdInput />

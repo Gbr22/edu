@@ -6,6 +6,7 @@ import { Class as ClassData } from "../../data/classes";
 import { SchoolHomeRoute, useNavigation } from "../../navigation";
 import { useGlobalStore } from "../../state/GlobalStore";
 import { Centered } from "../../styles/styles";
+import { useThemeContext } from "../../styles/ThemeContext";
 
 const circleSize = 49;
 
@@ -17,13 +18,13 @@ const ColoredCircle = styled.View<{ color: string }>`
     background-color: ${props=>props.color};
 `
 
-const borderWidth = 2;
+const borderWidth = 1;
 const size = 87;
 const gap = 20;
 
 const OuterContainer = styled.View`
     border-width: ${borderWidth}px;
-    border-color: #ECECEC;
+    border-color: ${({theme})=>theme.colors.borderColor};
     border-radius: 13.5px;
     overflow: hidden;
     margin: 0 ${gap/2}px;
@@ -32,15 +33,17 @@ const OuterContainer = styled.View`
     height: ${size+borderWidth}px;
 `
 
-const InnerContainer = styled.View`
+const InnerContainer = styled.View<{ color: string }>`
     ${Centered}
     width: ${size}px;
     height: ${size}px;
+    background-color: ${({color})=>color};
 `
 
 const ClassText = styled.Text`
     font-size: 18px;
-    color: #000000A6;
+    color: ${({theme})=>theme.colors.foreground};
+    opacity: 0.9;
     font-weight: bold;
     z-index: 1;
     text-align: center;
@@ -55,6 +58,16 @@ export function Class({data}: Props){
     let navigation = useNavigation();
     let schoolId = route.params.schoolId;
     let {versions} = useGlobalStore(({versions})=>({versions}));
+    const theme = useThemeContext();
+
+    const circleColor = theme.isDark ?
+        `hsl(${Math.floor(seedrandom(data.id)()*360)}, 40%, 20%)` :
+        `hsl(${Math.floor(seedrandom(data.id)()*360)}, 100%, 88%)`
+
+    const outerColor = theme.isDark ?
+        `hsla(${Math.floor(seedrandom(data.id)()*360)}, 40%, 20%, 0.1)` :
+        `hsla(${Math.floor(seedrandom(data.id)()*360)}, 100%, 88%, 0.1)`
+
     return <OuterContainer>
         <Link to={`/${schoolId}/timetable/${versions?.current?.id}/class/${data.id}`}>
             <TouchableNativeFeedback
@@ -67,9 +80,9 @@ export function Class({data}: Props){
                     });
                 }}
             >
-                <InnerContainer>
+                <InnerContainer color={outerColor}>
                     <ColoredCircle
-                        color={`hsl(${Math.floor(seedrandom(data.id)()*360)}, 100%, 88%)`}
+                        color={circleColor}
                     >
                     </ColoredCircle>
                     <ClassText>{data.shortName}</ClassText>

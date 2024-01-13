@@ -1,8 +1,7 @@
 import { Link, useRoute } from '@react-navigation/native';
 import { useEffect } from 'react';
 import { Button, ScrollView, Text, TouchableNativeFeedback, View } from 'react-native';
-import { SchoolHomeRoute, useNavigation } from '../navigation';
-import seedrandom from 'seedrandom';
+import { SchoolHomeRoute } from '../navigation';
 import { useGlobalStore } from '../state/GlobalStore';
 import { ControlPanel } from '../components/schoolHome/ControlPanel';
 import { SafeAreaView } from 'react-native-safe-area-context';

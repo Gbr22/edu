@@ -4,6 +4,7 @@ import { useGlobalStore } from "../../state/GlobalStore";
 import { Settings } from "react-native-feather";
 import { Centered, CenteredView } from "../../styles/styles";
 import styled from "styled-components/native";
+import { useThemeContext } from "../../styles/ThemeContext";
 
 let size = 36.5;
 let borderRadius = 11;
@@ -17,8 +18,9 @@ const ControlPanelOuter = styled.View`
     margin: 20px;
 `
 const VersionText = styled.Text`
-    color: ${color};
+    color: ${({theme})=>theme.colors.foreground};
     font-size: 16px;
+    opacity: 0.9;
 `
 const SettingsButton = styled.View`
     ${Centered}
@@ -42,7 +44,8 @@ const VersionInnerContainer = styled.View`
 
 export function ControlPanel(){
 
-    let versions = useGlobalStore(state=>state.versions);
+    const versions = useGlobalStore(state=>state.versions);
+    const theme = useThemeContext();
 
     if (!versions || !versions.current) {
         return <></>
@@ -61,7 +64,7 @@ export function ControlPanel(){
             </VersionOuterContainer>
             <Link to={"/"}>
                 <SettingsButton>
-                    <Settings width={18} color={color} />
+                    <Settings width={18} color={theme.colors.foreground} style={{opacity: 0.9}} />
                 </SettingsButton>
             </Link>
         </ControlPanelOuter>
