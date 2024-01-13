@@ -1,4 +1,4 @@
-package com.edu
+package sh.kess.edu
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
