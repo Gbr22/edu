@@ -1,5 +1,7 @@
 import { createNativeStackNavigator, NativeStackScreenProps } from "@react-navigation/native-stack"
 import { LinkingOptions, ParamListBase, useNavigation as useNativeNavigation } from '@react-navigation/native';
+import { useGlobalStore } from "./state/GlobalStore";
+import { setLastSchoolId } from "./storage/preferences";
 
 interface ParamList extends ParamListBase {
     Home: {},
@@ -39,4 +41,12 @@ export const stackLinking: LinkingOptions<ParamList> = {
         },
         initialRouteName:"Home",
     },
+}
+
+export function openSchool(navigation: Navigation, schoolId: string){
+    useGlobalStore.getState().updateTimetable(schoolId,undefined);
+    navigation.navigate("SchoolHome",{
+        schoolId
+    })
+    setLastSchoolId(schoolId);
 }

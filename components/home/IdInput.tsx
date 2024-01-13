@@ -1,13 +1,15 @@
 import { TouchableNativeFeedback, ActivityIndicator } from "react-native";
 import { create } from "zustand";
 import { X, ArrowRight } from "react-native-feather";
-import { useNavigation } from "../../navigation";
+import { openSchool, useNavigation } from "../../navigation";
 import { doesSchoolExist } from "../../data/api";
 import { useGlobalStore } from "../../state/GlobalStore";
 import { fetch as getNetInfo } from "@react-native-community/netinfo";
 import { doesSchoolExistInCache } from "../../storage/cache";
 import styled, { css } from "styled-components/native";
 import { Centered } from "../../styles/styles";
+import { useEffect } from "react";
+import { getLastSchoolId, setLastSchoolId } from "../../storage/preferences";
 
 interface State {
     schoolId: string
@@ -16,11 +18,14 @@ interface State {
 }
 let validationTimeout: NodeJS.Timeout;
 
-let useStore = create<State>(set=>({
+export const idInputStore = create<State>(set=>({
     schoolId: "",
     isValidSchoolId: undefined,
+    isFirstLoad: true,
+    navigateSchoolId: undefined,
     setSchoolId(schoolId){
         set({
+            ...this,
             schoolId,
             isValidSchoolId: undefined
         })
@@ -37,7 +42,7 @@ let useStore = create<State>(set=>({
                 })
             },300)
         }
-    }
+    },
 }))
 
 const inputHeight = 45;
@@ -96,7 +101,7 @@ const ButtonInner = styled.View<{ isValidSchoolId: boolean | undefined }>`
 `
 
 export function IdInput(){
-    let { schoolId, isValidSchoolId, setSchoolId } = useStore();
+    const { schoolId, isValidSchoolId, setSchoolId } = idInputStore();
 
     let navigation = useNavigation();
 
@@ -127,10 +132,7 @@ export function IdInput(){
             <TouchableNativeFeedback
                 onPress={()=>{
                     if (isValidSchoolId){
-                        useGlobalStore.getState().updateTimetable(schoolId,undefined);
-                        navigation.navigate("SchoolHome",{
-                            schoolId
-                        })
+                        openSchool(navigation,schoolId);
                     }
                 }}
             >

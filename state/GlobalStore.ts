@@ -4,6 +4,7 @@ import { Timetable } from '../data/timetable'
 import { Versions } from '../data/versions'
 import { getTimetableFromCache, getVersionsFromCache } from '../storage/cache'
 import { fetch as getNetInfo } from "@react-native-community/netinfo";
+import { getLastSchoolId } from '../storage/preferences'
 
 export enum ErrorType {
     offline,
@@ -23,7 +24,7 @@ interface GlobalState {
         schoolId: string, timetableId: string | undefined,
         getVersions: (schoolId: string)=>Promise<Versions | null>,
         getTimetable: (schoolId: string, timetableId: string)=>Promise<Timetable | null>
-    )=>Promise<void>
+    )=>Promise<void>,
 }
 
 export const useGlobalStore = create<GlobalState>((set,get)=>({
