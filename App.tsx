@@ -7,9 +7,6 @@ import { ThemeProvider } from 'styled-components/native';
 import { StatusBar } from "react-native";
 import { ThemeContext } from './styles/ThemeContext';
 import { AppWrapper } from './components/AppWrapper';
-import { lightTheme } from './styles/lightTheme';
-import { darkTheme } from './styles/darkTheme';
-import { useColorScheme } from 'react-native';
 import { useTheme } from './styles/useTheme';
 
 export default function App() {

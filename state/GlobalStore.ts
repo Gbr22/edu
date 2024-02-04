@@ -54,7 +54,7 @@ export const useGlobalStore = create<GlobalState>((set,get)=>({
 
         if (isInternetReachable){
             get().updateTimetableFromApi(schoolId,timetableId).catch(err=>{
-                console.warn(err);
+                console.warn("Could not update timetable form api.",err);
                 set({error: ErrorType.unknown})
             })
         }

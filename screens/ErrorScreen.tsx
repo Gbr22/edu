@@ -1,11 +1,12 @@
 import { View, Text, TouchableNativeFeedback } from "react-native";
 import { useNavigation } from "../navigation";
 import { PrimaryButton } from "../components/PrimaryButton";
-import { AlertTriangle } from "react-native-feather";
+import { AlertTriangle, ArrowLeft, RefreshCw } from "react-native-feather";
 import { SecondaryButton } from "../components/SecondaryButton";
 import { ErrorType, useGlobalStore } from "../state/GlobalStore";
 import { CenteredFillView } from "../styles/styles";
 import styled from "styled-components/native";
+import { useThemeContext } from "../styles/ThemeContext";
 
 export const ErrorText = styled.Text`
     font-weight: bold;
@@ -20,13 +21,14 @@ export function ErrorScreen(){
     let navigation = useNavigation();
     let canGoBack = navigation.canGoBack();
     let error = useGlobalStore(state=>state.error);
+    const theme = useThemeContext();
     let errorMessage = "An error occurred";
     if (error == ErrorType.offline){
         errorMessage = "There is no internet";
     }
 
     return <CenteredFillView>
-        <AlertTriangle color={"#000"} size={60} />
+        <AlertTriangle color={theme.colors.foreground} width={60} height={60} />
         <ErrorText>{errorMessage}</ErrorText>
         <PrimaryButton
             onPress={()=>{
@@ -36,7 +38,7 @@ export function ErrorScreen(){
                 }
                 updateTimetable(schoolId, timetableId);
             }}
-            icon='refresh-cw'
+            icon={RefreshCw}
             text='Refresh'
         />
         { canGoBack && <View
@@ -48,7 +50,7 @@ export function ErrorScreen(){
                 onPress={()=>{
                     navigation.pop();
                 }}
-                icon='arrow-left'
+                icon={ArrowLeft}
                 text='Go back'
             />
         </View> }
