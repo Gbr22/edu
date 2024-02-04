@@ -1,14 +1,12 @@
-import { useContext } from "react";
-import { ThemeContext } from "../styles/useTheme";
 import { Button, SpecializedButtonProps } from "./Button";
+import { useThemeContext } from "../styles/ThemeContext";
 
 export function SecondaryButton(props: SpecializedButtonProps){
-
-    let theme = useContext(ThemeContext);
+    let theme = useThemeContext();
 
     return <Button
         {...props}
         backgroundColor={theme.colors.lightElement}
-        color="#000"
+        color={theme.colors.foreground}
     />
 }

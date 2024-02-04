@@ -1,38 +1,39 @@
-import { z } from 'zod';
-import { getTableItems } from './table';
 import { TimetableJson } from './timetable';
+import { DayDef, parseDayDefs } from './daydefs';
+import { DayText, parseDayTexts } from './daytexts';
 
-export const DaySchema = z.object({
-    id: z.string(),
-    vals: z.array(z.string()),
-    val: z.number().or(z.null()),
-    name: z.string(),
-    short: z.string(),
-    typ: z.string()
-})
-
-type DayJson = z.infer<typeof DaySchema>
 
 export class Day {
     id: string;
     name: string;
     shortName: string;
-    index: number | null;
+    index: number;
     masks: string[];
 
     match(mask: string){
-        return this.masks.includes(mask);
+        return mask[this.index] === "1";
     }
 
-    constructor(json: DayJson){
-        this.id = json.id;
-        this.name = json.name;
-        this.shortName = json.short;
-        this.index = json.val;
-        this.masks = json.vals;
+    constructor(def: DayDef, text: DayText){
+        this.id = def.id;
+        this.name = text.name;
+        this.shortName = text.shortName;
+        this.index = Number(text.id);
+        this.masks = def.masks;
     }
 }
 
 export function parseDays(json: TimetableJson){
-    return getTableItems(json,"daysdefs",DaySchema,e=>new Day(e))
+    const dayDefs = parseDayDefs(json);
+    const dayTexts = parseDayTexts(json);
+    const days: Day[] = [];
+    for (let i=0; i < dayTexts.length; i++){
+        const dayText = dayTexts[i];
+        const dayDef = dayDefs[i];
+        if (!dayText || !dayDef){
+            continue;
+        }
+        days.push(new Day(dayDef,dayText));
+    }
+    return days;
 }

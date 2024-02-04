@@ -35,8 +35,8 @@ export function getVersions(schoolId: string){
         "https://"+schoolId+".edupage.org/timetable/server/ttviewer.js?__func=getTTViewerData",
         [schoolYear]
     ).then(json=>{
-        saveToCache(`versions-${schoolId}`,json);
         let parsed = VersionsSchema.parse(json);
+        saveToCache(`versions-${schoolId}`,json);
         return new Versions(parsed);
     })
 }
@@ -52,8 +52,8 @@ export function getTimetable(schoolId: string, id: string){
         "https://"+schoolId+".edupage.org/timetable/server/regulartt.js?__func=regularttGetData",
         [id]
     ).then(json=>{
-        saveToCache(`timetable-${schoolId}-${id}`,json);
         let parsed = TimetableSchema.parse(json);
+        saveToCache(`timetable-${schoolId}-${id}`,json);
         return new Timetable(parsed);
     })
 }

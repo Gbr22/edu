@@ -27,20 +27,20 @@ const ButtonText = styled.Text<{ color: string }>`
 
 export interface SpecializedButtonProps {
     onPress: ()=>void
-    icon: FeatherIconsName
+    icon: (p: { color: string, width: number })=>any
     text: string
 }
 
 interface ButtonProps {
     onPress: ()=>void
-    icon: FeatherIconsName
+    icon: (p: { color: string, width: number })=>any
     text: string
     backgroundColor: string
     color: string
 }
 
 export function Button({onPress, icon, text, backgroundColor, color}: ButtonProps){
-    let Icon = FeatherIconsNamespace[icon];
+    let Icon = icon;
     return <OuterContainer backgroundColor={backgroundColor}>
         <TouchableNativeFeedback
             onPress={onPress}

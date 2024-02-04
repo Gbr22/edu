@@ -21,7 +21,7 @@ export function getTableData(array: unknown[], id: string, itemSchema?: Schema) 
             return result.data;
         }
     }
-    throw new Error("No object matching the provided schema was found in the array");
+    throw new Error(`No object matching the provided schema was found in the array (${id})`);
 }
 export function getTableItems<ResultType>(json: TimetableJson, id: string, schema: Schema, factory: (itemJson: any)=>ResultType): ResultType[] {
     return getTableData(json.r.dbiAccessorRes.tables, id, schema)

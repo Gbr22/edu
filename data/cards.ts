@@ -95,13 +95,13 @@ export function getCardsInRow(timetable: Timetable, dayId: string, periodId: str
         }
         
         let subject = timetable.subjects.find(e=>e.id == lesson?.subjectId);
-
+        
         if (!subject){
             return;
         }
-
+        
         let week = timetable.weeks.find(e=>e.match(entry.weeksMask) && e.masks.length == 1);
-
+        
         if (!week){
             return;
         }
