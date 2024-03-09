@@ -69,10 +69,10 @@ def enableProguardInReleaseBuilds = false
  */
 def jscFlavor = 'org.webkit:android-jsc:+'
 
-def version = "1.0.1"
+def version = "1.1.0"
 def mayor = 1
-def minor = 0
-def patch = 1
+def minor = 1
+def patch = 0
 
 android {
     ndkVersion rootProject.ext.ndkVersion
