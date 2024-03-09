@@ -1,7 +1,10 @@
 import { create } from "zustand";
 import { getSubstitutions } from "../data/api";
-import { globalState } from "../state/GlobalStore";
-import { Substitutions as SubstitutionsData } from "../data/substitution";
+import { globalState, useGlobalStore } from "../state/GlobalStore";
+import { Substitutions, Substitutions as SubstitutionsData } from "../data/substitution";
+import { DAY, getWeekStart, truncateTime } from "../localization/date";
+import { Class } from "../data/classes";
+import { Day } from "../data/days";
 
 function createInitalState(){
     return {
@@ -15,6 +18,8 @@ const store = create(()=>{
     return createInitalState();
 })
 
+const useStore = store;
+
 export const substitutionsState = Object.freeze({
     store,
     use: store,
@@ -25,20 +30,21 @@ export const substitutionsState = Object.freeze({
             date: store.getState().date,
         })
     },
+    getFromMap: (date: Date | number): Substitutions | undefined =>{
+        return store.getState().substitutions.get(truncateTime(date))
+    },
+    insertIntoMap: (date: Date | number, substitutions: Substitutions)=>{
+        store.getState().substitutions.set(truncateTime(date),substitutions);
+    },
     updateDate: (newDate: Date)=>{
         store.setState({
             date: newDate,
-            currentSubstitutions: substitutionsState.get().substitutions.get(newDate.valueOf()),
+            currentSubstitutions: substitutionsState.get().substitutions.get(truncateTime(newDate)),
         })
     },
     stepDateByDays: (numberOfDays: number)=>{
         const date = substitutionsState.get().date;
         const timestamp = date.valueOf();
-        const MS = 1;
-        const SECOND = 1000 * MS;
-        const MINUTE = 60 * SECOND;
-        const HOUR = 60 * MINUTE;
-        const DAY = 24 * HOUR;
         const newTimestamp = timestamp + numberOfDays * DAY;
         const newDate = new Date(newTimestamp);
         substitutionsState.updateDate(newDate);
@@ -50,7 +56,7 @@ export const substitutionsState = Object.freeze({
         if (!schoolId){
             return;
         }
-        const cachedSubs = substitutionsState.get().substitutions.get(date.valueOf());
+        const cachedSubs = store.getState().substitutions.get(truncateTime(date));
         if (cachedSubs){
             store.setState({
                 currentSubstitutions: cachedSubs
@@ -60,7 +66,7 @@ export const substitutionsState = Object.freeze({
             store.setState({
                 currentSubstitutions: substitutions
             })
-            substitutionsState.get().substitutions.set(date.valueOf(),substitutions);
+            substitutionsState.get().substitutions.set(truncateTime(date),substitutions);
         }).catch(err=>{
             const substitutions = new Error(err);
             store.setState({
@@ -69,3 +75,20 @@ export const substitutionsState = Object.freeze({
         })
     }
 })
+
+export function matchSubstitutionsForLesson(props: {
+        classId: string,
+        periodText: string,
+        classes: Class[],
+        substitutions: Substitutions | null
+}){
+    if (!props.substitutions){
+        return;
+    }
+    const classObject = props.classes.find(c=>c.id === props.classId);
+    const substitutionEntry = props.substitutions.entries.find(e=>
+        (e.className === classObject?.shortName || e.className === classObject?.name)
+    );
+    const entry = substitutionEntry?.items.find(item=>item.period === props.periodText);
+    return entry;
+}

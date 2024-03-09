@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight } from "react-native-feather";
 import { Centered } from "../../styles/styles";
 import { useThemeContext } from "../../styles/ThemeContext";
 import { substitutionsState } from "../../state/substitutionsState";
+import { NativeModules } from "react-native";
 
 let borderRadius = 11;
 let size = 36.5;
@@ -61,7 +62,7 @@ const ControlContainer = styled.View`
 `
 
 function toLocalDate(date: Date){
-    return date.toLocaleDateString();
+    return date.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'numeric', day: 'numeric' });
 }
 
 function DateButton(){

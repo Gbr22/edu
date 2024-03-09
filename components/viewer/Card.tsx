@@ -4,6 +4,13 @@ import { CardData, getShortClassroomText, getGroupText, getTeacherText, isPlaceh
 import { useLessonModalStore } from "./LessonModal";
 import styled from "styled-components/native";
 import { Sizes } from './Sizes';
+import { DAY, getWeekStart, truncateTime } from '../../localization/date';
+import { useGlobalStore } from '../../state/GlobalStore';
+import { substitutionsState, matchSubstitutionsForLesson } from '../../state/substitutionsState';
+import { getPeriodInfo } from '../../data/periods';
+import { AlertCircle } from 'react-native-feather';
+import { Substitutions } from '../../data/substitution';
+import { useThemeContext } from '../../styles/ThemeContext';
 
 const Placeholder = styled.View`
     margin-right: ${Sizes.gap}px;
@@ -35,22 +42,53 @@ const Row = styled.View`
 `
 interface Props {
     card: CardData | PlaceholderCardData
+    dayId: string
+    classId: string
+    periodId: string
+    substitutions: Substitutions | null
 }
-export function Card({card}: Props) {
+
+const TeacherContainer = styled.View`
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+`
+
+export function Card({card, dayId, classId, substitutions}: Props) {
     if (!isCardData(card)) {
         return <Placeholder />
     }
-
-    let {lesson, subject} = card;
-    let duration = lesson.duration || 1;
-
+    const theme = useThemeContext();
+    const {lesson, subject} = card;
+    const duration = lesson.duration || 1;
+    const { periods, classes } = useGlobalStore(({timetable})=>{
+        return {
+            periods: timetable?.periods || [],
+            classes: timetable?.classes || [],
+        }
+    })
+    const { periodText } = getPeriodInfo({
+        periods: periods,
+        periodId: card.entry.periodId,
+        duration: card.lesson.duration
+    })
+    const substitution = matchSubstitutionsForLesson({
+        classId,
+        classes,
+        substitutions,
+        periodText
+    });
+    
     return <CardOuter
         height={duration}
         card={card}
     >
         <TouchableNativeFeedback
             onPress={()=>{
-                useLessonModalStore.getState().show(card);
+                useLessonModalStore.getState().show({
+                    cardData: card,
+                    periodInfo: substitution
+                });
             }}
         >
             <CardInner>
@@ -70,10 +108,24 @@ export function Card({card}: Props) {
                     align="center"
                     numberOfLines={duration * 2}
                 >{subject.name}</CardText>
-                <CardText
-                    align="right"
-                    numberOfLines={1}
-                >{getTeacherText(card)}</CardText>
+                <TeacherContainer>
+                    { substitution &&
+                        <AlertCircle
+                            width={14}
+                            height={14}
+                            color={theme.colors.foreground}
+                            style={{
+                                position: "relative",
+                                bottom: 2,
+                                right: 3
+                            }}
+                        />
+                    }
+                    <CardText
+                        align="right"
+                        numberOfLines={1}
+                    >{getTeacherText(card)}</CardText>
+                </TeacherContainer>
             </CardInner>
         </TouchableNativeFeedback>
     </CardOuter>

@@ -73,7 +73,11 @@ export function getSubstitutions(schoolId: string, date: Date){
             mode: "classes"
         }]
     ).then(json=>{
-        let parsed = SubstitutionsSchema.parse(json);
-        return new Substitutions(parsed);
+        try {
+            let parsed = SubstitutionsSchema.parse(json);
+            return new Substitutions(parsed);
+        } catch(err){
+            throw new Error(`Failed to parse json: ${JSON.stringify(json)} error: ${err}`);
+        }
     });
 }

@@ -4,6 +4,7 @@ import { useGlobalStore } from "../../state/GlobalStore";
 import styled from "styled-components/native";
 import { Card } from "./Card";
 import { Sizes } from "./Sizes";
+import { Substitutions } from "../../data/substitution";
 
 const Container = styled.View`
     flex-direction: row;
@@ -16,9 +17,10 @@ interface Props {
     dayId: string
     periodId: string
     classId: string
+    substitutions: Substitutions | null
 }
 
-export function Row({dayId, periodId, classId}: Props){
+export function Row({dayId, periodId, classId, substitutions}: Props){
 
     let timetable = useGlobalStore(state=>state.timetable);
     let cards: (CardData | PlaceholderCardData)[] = [];
@@ -28,7 +30,7 @@ export function Row({dayId, periodId, classId}: Props){
 
     return <Container>
         { cards.map(card=>{
-            return <Card key={getCardKey(card)} card={card}></Card>
+            return <Card key={getCardKey(card)} card={card} dayId={dayId} classId={classId} periodId={periodId} substitutions={substitutions}></Card>
         }) }
     </Container>
 }

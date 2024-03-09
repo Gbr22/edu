@@ -29,3 +29,25 @@ export class Period {
 export function parsePeriods(json: TimetableJson){
     return getTableItems(json,"periods",PeriodSchema,e=>new Period(e))
 }
+
+export function getPeriodInfo(props: {
+    periods: Period[],
+    duration: number,
+    periodId: string
+}){
+    let startPeriodIndex = props.periods.findIndex(e=>e.id == props.periodId);
+    let startPeriod = props.periods[startPeriodIndex];
+    let endPeriod = props.periods[startPeriodIndex+(props.duration-1)];
+
+    let periodText = startPeriod.name;
+
+    if (startPeriod != endPeriod){
+        periodText += `-${endPeriod.name}`;
+    }
+
+    return {
+        startPeriod,
+        endPeriod,
+        periodText
+    };
+}
