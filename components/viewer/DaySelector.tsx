@@ -9,10 +9,10 @@ import { Centered } from '../../styles/styles';
 const Container = styled.View`
     ${Centered}
     width: 100%;
-    background-color: ${props=>props.theme.colors.background};
+    background-color: ${props=>props.theme.colors.navBackground};
     flex-direction: row;
     height: 50px;
-    elevation: 8;
+    elevation: 1;
 `
 const DayOuter = styled.View`
     margin: 0 15px;
@@ -28,7 +28,7 @@ const DayInner = styled.View<{ isActive: boolean }>`
 const DayText = styled.Text<{ isActive: boolean }>`
     font-size: 15px;
     font-weight: bold;
-    color: ${({isActive, theme})=>isActive ? "#0074D9" : theme.colors.foreground};
+    color: ${({isActive, theme})=>isActive ? theme.colors.navForegroundActive : theme.colors.foreground};
     opacity: ${({isActive,theme})=>isActive ? 1: (theme.isDark ? 0.8 : 0.9)};
 `
 

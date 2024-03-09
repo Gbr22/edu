@@ -10,7 +10,9 @@ type ThemeColors = {
         "lightElement" |
         "lighterElement" |
         "modalBackdrop" |
-        "borderColor"
+        "borderColor" |
+        "navForegroundActive" |
+        "navBackground"
     )]: string
 }
 

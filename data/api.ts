@@ -1,4 +1,5 @@
 import { saveToCache } from "../storage/cache";
+import { Substitutions, SubstitutionsSchema } from "./substitution";
 import { Timetable, TimetableSchema } from "./timetable";
 import { Versions, VersionsSchema } from "./versions";
 
@@ -56,4 +57,23 @@ export function getTimetable(schoolId: string, id: string){
         saveToCache(`timetable-${schoolId}-${id}`,json);
         return new Timetable(parsed);
     })
+}
+
+export function getSubstitutions(schoolId: string, date: Date){
+    const dateString = ([
+        String(date.getFullYear()),
+        String(date.getMonth()+1).padStart(2,'0'),
+        String(date.getDate()).padStart(2,'0')
+    ]).join("-");
+
+    return makeRequest(
+        "https://"+schoolId+".edupage.org/substitution/server/viewer.js?__func=getSubstViewerDayDataHtml",
+        [{
+            date: dateString,
+            mode: "classes"
+        }]
+    ).then(json=>{
+        let parsed = SubstitutionsSchema.parse(json);
+        return new Substitutions(parsed);
+    });
 }

@@ -4,7 +4,6 @@ import { CenteredFillView } from '../styles/styles';
 import styled from 'styled-components/native';
 import { getLastSchoolId } from '../storage/preferences';
 import { openSchool, useNavigation } from '../navigation';
-import { View } from 'react-native';
 import { useThemeContext } from '../styles/ThemeContext';
 
 let Illustration = styled.Image`

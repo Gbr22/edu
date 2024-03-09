@@ -16,11 +16,16 @@ export const ErrorText = styled.Text`
     text-align: center;
 `
 
-export function ErrorScreen(){
+interface ErrorScreenProps {
+    error: unknown
+    refreshAction: ()=>void
+    backButtonEnabled?: boolean
+}
 
-    let navigation = useNavigation();
-    let canGoBack = navigation.canGoBack();
-    let error = useGlobalStore(state=>state.error);
+export function ErrorScreen(props: ErrorScreenProps){
+    const navigation = useNavigation();
+    const canGoBack = props.backButtonEnabled && navigation.canGoBack();
+    const error = props.error;
     const theme = useThemeContext();
     let errorMessage = "An error occurred";
     if (error == ErrorType.offline){
@@ -31,13 +36,7 @@ export function ErrorScreen(){
         <AlertTriangle color={theme.colors.foreground} width={60} height={60} />
         <ErrorText>{errorMessage}</ErrorText>
         <PrimaryButton
-            onPress={()=>{
-                let {schoolId, timetableId, updateTimetable} = useGlobalStore.getState();
-                if (!schoolId){
-                    return;
-                }
-                updateTimetable(schoolId, timetableId);
-            }}
+            onPress={props.refreshAction}
             icon={RefreshCw}
             text='Refresh'
         />

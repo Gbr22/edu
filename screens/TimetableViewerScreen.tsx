@@ -2,7 +2,7 @@ import { useRoute } from '@react-navigation/native';
 import { ScrollView, Text, TouchableNativeFeedback, View } from 'react-native';
 import { TimetableViewerRoute, useNavigation } from '../navigation';
 import { createRef, useEffect } from 'react';
-import { useGlobalStore } from '../state/GlobalStore';
+import { globalState, updateTimetable } from '../state/GlobalStore';
 import { DaySelector, useDaySelectorStore } from '../components/viewer/DaySelector';
 import { Day } from '../components/viewer/Day';
 import PagerView from 'react-native-pager-view';
@@ -30,14 +30,18 @@ export function TimetableViewerScreen(){
     let route = useRoute<TimetableViewerRoute>();
     let { schoolId, timetableId } = route.params;
 
-    let {timetable, updateTimetable, error} = useGlobalStore(({timetable, updateTimetable, error})=>({timetable, updateTimetable, error}));
+    let {timetable, error} = globalState.use(({timetable, error})=>({timetable, error}));
 
     useEffect(() => {
         updateTimetable(schoolId,timetableId);
     }, []);
 
     if (error != undefined){
-        return <ErrorScreen />
+        return <ErrorScreen
+            error={error}
+            refreshAction={globalState.refresh}
+            backButtonEnabled={true}
+        />
     }
 
     let classData = timetable?.classes.find(e=>e.id == route.params.objectId);
