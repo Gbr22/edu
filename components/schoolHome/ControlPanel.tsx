@@ -9,8 +9,6 @@ import { useThemeContext } from "../../styles/ThemeContext";
 let size = 36.5;
 let borderRadius = 11;
 
-let color = "#515151";
-
 const ControlPanelOuter = styled.View`
     ${Centered}
     flex-direction: row;

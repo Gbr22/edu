@@ -61,12 +61,12 @@ export function Class({data}: Props){
     const theme = useThemeContext();
 
     const circleColor = theme.isDark ?
-        `hsl(${Math.floor(seedrandom(data.id)()*360)}, 40%, 20%)` :
-        `hsl(${Math.floor(seedrandom(data.id)()*360)}, 100%, 88%)`
+        `hsl(${Math.floor(seedrandom(data.name)()*360)}, 40%, 20%)` :
+        `hsl(${Math.floor(seedrandom(data.name)()*360)}, 100%, 88%)`
 
     const outerColor = theme.isDark ?
-        `hsla(${Math.floor(seedrandom(data.id)()*360)}, 40%, 20%, 0.1)` :
-        `hsla(${Math.floor(seedrandom(data.id)()*360)}, 100%, 88%, 0.1)`
+        `hsla(${Math.floor(seedrandom(data.name)()*360)}, 40%, 20%, 0.1)` :
+        `hsla(${Math.floor(seedrandom(data.name)()*360)}, 100%, 88%, 0.1)`
 
     return <OuterContainer>
         <Link to={`/${schoolId}/timetable/${versions?.current?.id}/class/${data.id}`}>

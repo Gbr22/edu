@@ -5,9 +5,11 @@ export const darkTheme = {
     isDark: true,
     colors: {
         background: "#18181b",
+        navBackground: "#242429",
         foreground: "#e4e4e7",
         statusBar: "rgba(24, 24, 27, 0.8)",
         primary: "#1f7a7a",
+        navForegroundActive: "#0074D9",
         error: "#99413d",
         lightElement: "#27272a",
         lighterElement: "#3f3f46",

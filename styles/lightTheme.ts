@@ -5,9 +5,11 @@ export const lightTheme = {
     isDark: false,
     colors: {
         background: "#ffffff",
+        navBackground: "#f2f2f2",
         foreground: "#000000",
         statusBar: "rgba(255,255,255,0.8)",
         primary: "#2aa2a2",
+        navForegroundActive: "#0074D9",
         error: "#d74942",
         lightElement: "#e6e6e6",
         lighterElement: "#ededed",
