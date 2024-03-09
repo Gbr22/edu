@@ -27,13 +27,13 @@ const ButtonText = styled.Text<{ color: string }>`
 
 export interface SpecializedButtonProps {
     onPress: ()=>void
-    icon: (p: { color: string, width: number })=>any
+    icon: (p: { color: string, width: number, height: number })=>any
     text: string
 }
 
 interface ButtonProps {
     onPress: ()=>void
-    icon: (p: { color: string, width: number })=>any
+    icon: (p: { color: string, width: number, height: number })=>any
     text: string
     backgroundColor: string
     color: string
@@ -46,7 +46,7 @@ export function Button({onPress, icon, text, backgroundColor, color}: ButtonProp
             onPress={onPress}
         >
             <InnerContainer>
-                <Icon color={color} width={25} />
+                <Icon color={color} width={25} height={25} />
                 <ButtonText color={color}>{text}</ButtonText>
             </InnerContainer>
         </TouchableNativeFeedback>
