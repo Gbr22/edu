@@ -4,6 +4,8 @@ import { CardData, getClassroomText, getGroupText, getShortClassroomText, getTea
 import { useGlobalStore } from "../../state/GlobalStore";
 import styled from "styled-components/native";
 import { Centered, getCardColor } from "../../styles/styles";
+import { getPeriodInfo } from "../../data/periods";
+import { SubstitutionPeriodInfo } from "../../data/substitution";
 
 const SimpleText = styled.Text`
     color: ${({theme})=>theme.colors.foreground};
@@ -40,39 +42,52 @@ const PeriodText = styled(SimpleText)`
     color: ${({theme})=>theme.colors.foreground};
 `
 
+const PeriodInfo = styled.View``
+
+const Divider = styled.View`
+    width: 100%;
+    height: 1px;
+    background-color: ${({theme})=>theme.colors.foreground};
+    margin: 8px 0;
+    opacity: 0.4;
+`
+
+interface ModalData {
+    cardData: CardData
+    periodInfo: SubstitutionPeriodInfo | undefined
+}
+
 interface LessonModalState {
-    cardData?: CardData
-    show: (cardData: CardData) => void
+    data?: ModalData
+    show: (data: ModalData) => void
     hide: ()=>void
 }
 
 export const useLessonModalStore = create<LessonModalState>(set=>({
     cardData: undefined,
-    show(cardData){
-        set({cardData});
+    show(data: ModalData){
+        set({data});
     },
     hide(){
-        set({cardData: undefined});
+        set({data: undefined});
     }
 }))
 
-function ModalInner(props: {card: CardData}){
-    let { card } = props;
+function ModalInner(props: {data: ModalData}){
+    let { data } = props;
+    const card = data.cardData;
+    const periodInfo = data.periodInfo?.info;
     let timetable = useGlobalStore(state=>state.timetable);
 
     if (!timetable){
         return <></>
     }
 
-    let startPeriodIndex = timetable.periods.findIndex(e=>e.id == card.entry.periodId);
-    let startPeriod = timetable.periods[startPeriodIndex];
-    let endPeriod = timetable.periods[startPeriodIndex+(card.lesson.duration-1)];
-
-    let periodText = startPeriod.name;
-
-    if (startPeriod != endPeriod){
-        periodText += `-${endPeriod.name}`;
-    }
+    const { periodText, startPeriod, endPeriod } = getPeriodInfo({
+        periods: timetable.periods,
+        periodId: card.entry.periodId,
+        duration: card.lesson.duration
+    })
 
     let details: string[][] = [
         [timetable.strings.teacher,getTeacherText(card)],
@@ -96,16 +111,22 @@ function ModalInner(props: {card: CardData}){
                 <SimpleText>{": "+text}</SimpleText>
             </SimpleText>
         }) }
+        { periodInfo && <PeriodInfo>
+            <Divider />
+            <SimpleText>
+                {periodInfo}
+            </SimpleText>
+        </PeriodInfo> }
     </InnerContainer>
 }
 
 export function LessonModal(){
 
-    let { cardData: card, hide } = useLessonModalStore();
+    const { data, hide } = useLessonModalStore();
 
     return <Modal
         animationType="fade"
-        visible={card != undefined}
+        visible={data != undefined}
         transparent={true}
         onRequestClose={hide}
     >
@@ -113,7 +134,7 @@ export function LessonModal(){
             onPress={hide}
         >
             <Overlay>
-                { card && <ModalInner card={card} /> }
+                { data && <ModalInner data={data} /> }
             </Overlay>
         </TouchableWithoutFeedback>
     </Modal>
