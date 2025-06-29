@@ -56,3 +56,18 @@ Now that you have successfully run the app, let's modify it.
 2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
 
    For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
+
+# Build instructions
+
+cd android
+
+Create bundle
+
+```
+SIGNING_STORE_FILE=./key.jks SIGNING_STORE_PASSWORD=password SIGNING_KEY_ALIAS=key0 SIGNING_KEY_PASSWORD=password ./gradlew bundleRelease
+```
+
+Resign built bundle
+```
+jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -keystore key.jks ./app/build/outputs/bundle/release/app-release.aab key0
+```
