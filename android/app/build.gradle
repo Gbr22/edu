@@ -69,10 +69,8 @@ def enableProguardInReleaseBuilds = false
  */
 def jscFlavor = 'org.webkit:android-jsc:+'
 
-def version = "1.1.1"
-def mayor = 1
-def minor = 1
-def patch = 1
+def version = "1.1.2"
+def (major, minor, patch) = version.tokenize('.').collect { it as int }
 
 android {
     ndkVersion rootProject.ext.ndkVersion
@@ -84,7 +82,7 @@ android {
         applicationId "sh.kess.edu"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode (mayor * 100 * 100 + minor * 100 + patch * 1)
+        versionCode (major * 100 * 100 + minor * 100 + patch * 1)
         versionName version
     }
     signingConfigs {
