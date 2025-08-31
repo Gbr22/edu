@@ -61,12 +61,9 @@ export function Card({card, dayId, classId, substitutions}: Props) {
     const theme = useThemeContext();
     const {lesson, subject} = card;
     const duration = lesson.duration || 1;
-    const { periods, classes } = useGlobalStore(({timetable})=>{
-        return {
-            periods: timetable?.periods || [],
-            classes: timetable?.classes || [],
-        }
-    })
+    const { timetable } = useGlobalStore();
+    const periods = timetable?.periods || [];
+    const classes = timetable?.classes || [];
     const { periodText } = getPeriodInfo({
         periods: periods,
         periodId: card.entry.periodId,

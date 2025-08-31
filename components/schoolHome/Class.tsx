@@ -57,7 +57,7 @@ export function Class({data}: Props){
     let route = useRoute<SchoolHomeRoute>();
     let navigation = useNavigation();
     let schoolId = route.params.schoolId;
-    let {versions} = useGlobalStore(({versions})=>({versions}));
+    const { versions } = useGlobalStore();
     const theme = useThemeContext();
 
     const circleColor = theme.isDark ?
@@ -69,7 +69,15 @@ export function Class({data}: Props){
         `hsla(${Math.floor(seedrandom(data.name)()*360)}, 100%, 88%, 0.1)`
 
     return <OuterContainer>
-        <Link to={`/${schoolId}/timetable/${versions?.current?.id}/class/${data.id}`}>
+        <Link
+            screen={"TimetableViewer"}
+            params={{
+                schoolId,
+                type: "class",
+                timetableId: versions?.current?.id,
+                objectId: data.id
+            }}
+        >
             <TouchableNativeFeedback
                 onPress={()=>{
                     navigation.navigate("TimetableViewer", {

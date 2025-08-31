@@ -4,7 +4,7 @@ import { Button, ScrollView, Text, TouchableNativeFeedback, TouchableOpacity, Vi
 import { SchoolHomeRoute } from '../navigation';
 import { globalState, updateTimetable, useGlobalStore } from '../state/GlobalStore';
 import { ControlPanel } from '../components/schoolHome/ControlPanel';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { NoTimetablesScreen } from './NoTimetablesScreen';
 import { ErrorScreen } from './ErrorScreen';
 import { LoadingScreen } from './LoadingScreen';
@@ -16,40 +16,48 @@ const ClassesContainer = styled.View`
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-`
+`;
 
 export function ClassSelector(){
-    let route = useRoute<SchoolHomeRoute>();
-    let schoolId = route.params.schoolId;
-    let {timetable, versions, error} = useGlobalStore(({versions, timetable, error})=>({versions,timetable,error}));
-
-    
+    const { timetable, versions, error } = useGlobalStore();
+    const insets = useSafeAreaInsets();
 
     if (error != undefined){
         return <ErrorScreen
             error={error}
             refreshAction={globalState.refresh}
             backButtonEnabled={true}
-        />
+        />;
     }
 
     if (versions && !versions.current){
         return <NoTimetablesScreen />
     }
 
-    return <View>
+    return <View
+        style={{
+            flex: 1,
+        }}
+    >
         <OverlayView>
             { (!versions || !timetable) && <LoadingScreen /> }
         </OverlayView>
-        <ScrollView>
-            <SafeAreaView>
-                <ControlPanel />
-                <ClassesContainer>
-                    { timetable?.classes.map(data=>{
-                        return <Class data={data} key={data.id} />
-                    }) }
-                </ClassesContainer>
-            </SafeAreaView>
+        <ScrollView
+            style={{
+                paddingTop: insets.top,
+                paddingLeft: insets.left,
+                paddingRight: insets.right,
+            }}
+            contentContainerStyle={{
+                paddingBottom: insets.bottom + 20,
+            }}
+        >
+            <ControlPanel />
+            <ClassesContainer>
+                { timetable?.classes.map(data=>{
+                    return <Class data={data} key={data.id} />;
+                }) }
+            </ClassesContainer>
         </ScrollView>
     </View>
 }

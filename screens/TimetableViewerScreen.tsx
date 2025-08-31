@@ -7,7 +7,7 @@ import { DaySelector, useDaySelectorStore } from '../components/viewer/DaySelect
 import { Day } from '../components/viewer/Day';
 import PagerView from 'react-native-pager-view';
 import { Centered, CenteredView, FillView } from '../styles/styles';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LessonModal } from '../components/viewer/LessonModal';
 import { ErrorScreen } from './ErrorScreen';
 import { LoadingScreen } from './LoadingScreen';
@@ -27,10 +27,10 @@ const Pager = styled(PagerView)`
 `
 
 export function TimetableViewerScreen(){
-    let route = useRoute<TimetableViewerRoute>();
-    let { schoolId, timetableId } = route.params;
-
-    let {timetable, error} = globalState.use(({timetable, error})=>({timetable, error}));
+    const route = useRoute<TimetableViewerRoute>();
+    const { schoolId, timetableId } = route.params;
+    const { timetable, error } = globalState.use();
+    const insets = useSafeAreaInsets();
 
     useEffect(() => {
         updateTimetable(schoolId,timetableId);
@@ -44,42 +44,46 @@ export function TimetableViewerScreen(){
         />
     }
 
-    let classData = timetable?.classes.find(e=>e.id == route.params.objectId);
+    const classData = timetable?.classes.find(e=>e.id == route.params.objectId);
 
     if (!timetable || !classData){
         return <LoadingScreen />
     }
 
-    let pagerRef = createRef<PagerView>();
+    const pagerRef = createRef<PagerView>();
 
     // note: we don't use it as a hook, so the component doesn't rerender when the value changes.
-    let selectedDay = useDaySelectorStore.getState().selectedDay;
+    const selectedDay = useDaySelectorStore.getState().selectedDay;
 
     return <FillView>
         <LessonModal />
-        <ScrollView>
-            <SafeAreaView>
-                <CenteredView>
-                    <BackButton classData={classData} />
-                </CenteredView>
-                <TimetableOuter>
-                    <Periods />
-                    <TimetableInner>
-                        <Pager
-                            ref={pagerRef}
-                            onPageSelected={(event)=>{
-                                let pos = event.nativeEvent.position;
-                                useDaySelectorStore.setState({selectedDay:pos});
-                            }}
-                            initialPage={selectedDay}
-                        >
-                            { timetable?.days.filter(e=>e.index != null).map(day=>{
-                                return <Day key={day.id} dayId={day.id} classId={route.params.objectId}></Day>
-                            }) }
-                        </Pager>
-                    </TimetableInner>
-                </TimetableOuter>
-            </SafeAreaView>
+        <ScrollView
+            style={{
+                paddingTop: insets.top,
+                paddingLeft: insets.left,
+                paddingRight: insets.right,
+            }}
+        >
+            <CenteredView>
+                <BackButton classData={classData} />
+            </CenteredView>
+            <TimetableOuter>
+                <Periods />
+                <TimetableInner>
+                    <Pager
+                        ref={pagerRef}
+                        onPageSelected={(event)=>{
+                            let pos = event.nativeEvent.position;
+                            useDaySelectorStore.setState({selectedDay:pos});
+                        }}
+                        initialPage={selectedDay}
+                    >
+                        { timetable?.days.filter(e=>e.index != null).map(day=>{
+                            return <Day key={day.id} dayId={day.id} classId={route.params.objectId}></Day>
+                        }) }
+                    </Pager>
+                </TimetableInner>
+            </TimetableOuter>
         </ScrollView>
         <DaySelector pagerRef={pagerRef}></DaySelector>
     </FillView>

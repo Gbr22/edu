@@ -16,7 +16,7 @@ interface State {
     isValidSchoolId: boolean | undefined
     setSchoolId: (id: string)=>void
 }
-let validationTimeout: NodeJS.Timeout;
+let validationTimeout: ReturnType<typeof setTimeout>;
 
 export const idInputStore = create<State>(set=>({
     schoolId: "",
@@ -74,6 +74,7 @@ const Input = styled.TextInput<{ isValidSchoolId: boolean | undefined }>`
     ${TextStyle}
     text-align: center;
     padding: 0;
+    height: 100%;
     margin: 0;
     flex-shrink: 1;
     font-weight: bold;

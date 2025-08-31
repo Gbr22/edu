@@ -6,6 +6,7 @@ import styled from "styled-components/native";
 import { Centered, getCardColor } from "../../styles/styles";
 import { getPeriodInfo } from "../../data/periods";
 import { SubstitutionPeriodInfo } from "../../data/substitution";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const SimpleText = styled.Text`
     color: ${({theme})=>theme.colors.foreground};
@@ -77,7 +78,7 @@ function ModalInner(props: {data: ModalData}){
     let { data } = props;
     const card = data.cardData;
     const periodInfo = data.periodInfo?.info;
-    let timetable = useGlobalStore(state=>state.timetable);
+    const { timetable } = useGlobalStore();
 
     if (!timetable){
         return <></>
@@ -121,7 +122,7 @@ function ModalInner(props: {data: ModalData}){
 }
 
 export function LessonModal(){
-
+    const insets = useSafeAreaInsets();
     const { data, hide } = useLessonModalStore();
 
     return <Modal
@@ -133,7 +134,14 @@ export function LessonModal(){
         <TouchableWithoutFeedback
             onPress={hide}
         >
-            <Overlay>
+            <Overlay
+                style={{
+                    paddingTop: insets.top,
+                    paddingBottom: insets.bottom,
+                    paddingLeft: insets.left,
+                    paddingRight: insets.right,
+                }}
+            >
                 { data && <ModalInner data={data} /> }
             </Overlay>
         </TouchableWithoutFeedback>

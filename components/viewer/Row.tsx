@@ -22,7 +22,7 @@ interface Props {
 
 export function Row({dayId, periodId, classId, substitutions}: Props){
 
-    let timetable = useGlobalStore(state=>state.timetable);
+    const { timetable } = useGlobalStore();
     let cards: (CardData | PlaceholderCardData)[] = [];
     if (timetable){
         cards = getCardsInRow(timetable,dayId,periodId,classId);

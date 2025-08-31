@@ -42,7 +42,7 @@ const VersionInnerContainer = styled.View`
 
 export function ControlPanel(){
 
-    const versions = useGlobalStore(state=>state.versions);
+    const { versions } = useGlobalStore();
     const theme = useThemeContext();
 
     if (!versions || !versions.current) {
@@ -60,7 +60,7 @@ export function ControlPanel(){
                     </VersionInnerContainer>
                 </TouchableNativeFeedback>
             </VersionOuterContainer>
-            <Link to={"/"}>
+            <Link screen={"Home"} params={{}}>
                 <SettingsButton>
                     <Settings width={18} color={theme.colors.foreground} style={{opacity: 0.9}} />
                 </SettingsButton>

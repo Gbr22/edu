@@ -7,6 +7,7 @@ import { ErrorType, useGlobalStore } from "../state/GlobalStore";
 import { CenteredFillView } from "../styles/styles";
 import styled from "styled-components/native";
 import { useThemeContext } from "../styles/ThemeContext";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export const ErrorText = styled.Text`
     font-weight: bold;
@@ -14,6 +15,7 @@ export const ErrorText = styled.Text`
     margin: 25px 0;
     width: 120px;
     text-align: center;
+    color: ${props=>props.theme.colors.foreground};
 `
 
 interface ErrorScreenProps {
@@ -27,12 +29,20 @@ export function ErrorScreen(props: ErrorScreenProps){
     const canGoBack = props.backButtonEnabled && navigation.canGoBack();
     const error = props.error;
     const theme = useThemeContext();
+    const insets = useSafeAreaInsets();
     let errorMessage = "An error occurred";
     if (error == ErrorType.offline){
         errorMessage = "There is no internet";
     }
 
-    return <CenteredFillView>
+    return <CenteredFillView
+        style={{
+            paddingTop: insets.top,
+            paddingBottom: insets.bottom,
+            paddingLeft: insets.left,
+            paddingRight: insets.right,
+        }}
+    >
         <AlertTriangle color={theme.colors.foreground} width={60} height={60} />
         <ErrorText>{errorMessage}</ErrorText>
         <PrimaryButton

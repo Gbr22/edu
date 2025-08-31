@@ -19,7 +19,7 @@ interface GlobalState {
     error?: ErrorType
 }
 
-export const useGlobalStore = create<GlobalState>((set,get)=>({}))
+export const useGlobalStore = create<GlobalState>(()=>({}))
 
 const store = useGlobalStore;
 

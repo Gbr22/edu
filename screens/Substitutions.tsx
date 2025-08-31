@@ -6,6 +6,7 @@ import { LoadingScreen } from "./LoadingScreen";
 import { ErrorScreen } from "./ErrorScreen";
 import { substitutionsState } from "../state/substitutionsState";
 import { SubstitutionControls } from "../components/substitutions/SubstitutionControls";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const Data = styled.View`
     gap: 20px;
@@ -23,9 +24,14 @@ const RootStyles = styled.ScrollView`
 `
 
 function SubstitutionsContainer(props: { children: any }){
+    const insets = useSafeAreaInsets();
+
     return <RootStyles
         contentContainerStyle={{
-            minHeight: "100%"
+            minHeight: "100%",
+            paddingTop: insets.top,
+            paddingLeft: insets.left,
+            paddingRight: insets.right,
         }}
     >
         {props.children}

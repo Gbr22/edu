@@ -8,35 +8,37 @@ import { StatusBar } from "react-native";
 import { ThemeContext } from './styles/ThemeContext';
 import { AppWrapper } from './components/AppWrapper';
 import { useTheme } from './styles/useTheme';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 export default function App() {
-
     const theme = useTheme();
 
     return (
-        <ThemeContext.Provider value={theme}>
-            <AppWrapper>
-                <ThemeProvider theme={theme}>
-                    <NavigationContainer
-                        linking={stackLinking}
-                        theme={theme.navigation}
-                    >
-                        <Stack.Navigator
-                            screenOptions={{
-                                contentStyle: {
-                                    backgroundColor: theme.colors.background
-                                },
-                                headerShown: false,
-                            }}
+        <SafeAreaProvider>
+            <ThemeContext.Provider value={theme}>
+                <AppWrapper>
+                    <ThemeProvider theme={theme}>
+                        <NavigationContainer
+                            linking={stackLinking}
+                            theme={theme.navigation}
                         >
-                            <Stack.Screen name="Home" component={HomeScreen} />
-                            <Stack.Screen name="SchoolHome" component={SchoolHomeScreen} />
-                            <Stack.Screen name="TimetableViewer" component={TimetableViewerScreen} />
-                        </Stack.Navigator>
-                        <StatusBar barStyle={theme.isDark ? "light-content" : "dark-content"} backgroundColor={theme.colors.statusBar} />
-                    </NavigationContainer>
-                </ThemeProvider>
-            </AppWrapper>
-        </ThemeContext.Provider>
+                            <Stack.Navigator
+                                screenOptions={{
+                                    contentStyle: {
+                                        backgroundColor: theme.colors.background
+                                    },
+                                    headerShown: false,
+                                }}
+                            >
+                                <Stack.Screen name="Home" component={HomeScreen} />
+                                <Stack.Screen name="SchoolHome" component={SchoolHomeScreen} />
+                                <Stack.Screen name="TimetableViewer" component={TimetableViewerScreen} />
+                            </Stack.Navigator>
+                            <StatusBar barStyle={theme.isDark ? "light-content" : "dark-content"} backgroundColor={theme.colors.statusBar} />
+                        </NavigationContainer>
+                    </ThemeProvider>
+                </AppWrapper>
+            </ThemeContext.Provider>
+        </SafeAreaProvider>
     );
 }

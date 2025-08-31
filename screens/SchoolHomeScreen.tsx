@@ -8,6 +8,7 @@ import { ClassSelector } from './ClassSelector';
 import { Substitutions } from './Substitutions';
 import { useEffect } from 'react';
 import { globalState, updateTimetable } from '../state/GlobalStore';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type PageId = "classes" | "substitutions";
 
@@ -19,7 +20,6 @@ const selectedPageStore = create(()=>{
 const useSelectedPage = selectedPageStore;
 
 const MenuContainer = styled.View`
-    height: 50px;
     background-color: ${props=>props.theme.colors.navBackground};
     flex-direction: row;
     justify-content: space-around;
@@ -60,7 +60,16 @@ function switchPage(pageId: PageId){
 }
 
 function Menu(){
-    return <MenuContainer>
+    const insets = useSafeAreaInsets();
+
+    return <MenuContainer
+        style={{
+            paddingBottom: insets.bottom,
+            height: 50 + insets.bottom,
+            paddingLeft: insets.left,
+            paddingRight: insets.right,
+        }}
+    >
         <MenuItem
             icon={Calendar}
             onPress={switchPage.bind(null,"classes")}
@@ -96,8 +105,10 @@ export function SchoolHomeScreen(){
         updateTimetable(schoolId,undefined);
     }, []);
 
-    return <FillView>
-        <Content />
-        <Menu />
-    </FillView>
+    return <>
+        <FillView>
+            <Content />
+            <Menu />
+        </FillView>
+    </>;
 }

@@ -14,13 +14,7 @@ interface DayProps {
 }
 
 export function Day({dayId, classId}: DayProps){
-
-    const { timetable, schoolId } = useGlobalStore(state=>{
-        return {
-            timetable: state.timetable,
-            schoolId: state.schoolId
-        }
-    });
+    const { timetable, schoolId } = useGlobalStore();
     const day = timetable?.days.find(e=>e.id == dayId);
     
     // note: we don't use it as a hook, so the component doesn't rerender when the value changes.

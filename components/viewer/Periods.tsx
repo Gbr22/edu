@@ -17,7 +17,7 @@ const PeriodText = styled.Text`
 `
 
 export function Periods() {
-    let timetable = useGlobalStore(state=>state.timetable);
+    const { timetable } = useGlobalStore();
 
     return <View style={{
         width: 30,
