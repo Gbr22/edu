@@ -4,47 +4,52 @@ import { ChevronLeft, ChevronRight } from "react-native-feather";
 import { Centered } from "../../styles/styles";
 import { useThemeContext } from "../../styles/ThemeContext";
 import { substitutionsState } from "../../state/substitutionsState";
-import { NativeModules } from "react-native";
-
-let borderRadius = 11;
-let size = 36.5;
+import { useControlPanelSizes } from "../viewer/Sizes";
+import { useFontScale } from "../../fontScale";
 
 const ArrowButtonOuterContainer = styled.View`
     background-color: ${props=>props.theme.colors.lighterElement};
-    border-radius: ${borderRadius}px;
     overflow: hidden;
 `
 
 const ArrowButtonInnerContainer = styled.View`
     ${Centered}
-    width: ${size}px;
-    height: ${size}px;
 `
 
 function ArrowButton(props: { direction: number }){
     const theme = useThemeContext();
+    const { height, borderRadius } = useControlPanelSizes();
+    const fontScale = useFontScale();
+    const iconSize = 20 * fontScale;
 
     const Icon = props.direction === -1 ? ChevronLeft : ChevronRight;
 
-    return <ArrowButtonOuterContainer>
+    return <ArrowButtonOuterContainer
+        style={{
+            borderRadius
+        }}
+    >
         <TouchableNativeFeedback
             onPress={substitutionsState.stepDateByDays.bind(null,props.direction)}
         >
-            <ArrowButtonInnerContainer>
-                <Icon width={20} height={20} color={theme.colors.foreground} style={{opacity: 0.9}} />
+            <ArrowButtonInnerContainer
+                style={{
+                    height,
+                    width: height,
+                }}
+            >
+                <Icon width={iconSize} height={iconSize} color={theme.colors.foreground} style={{opacity: 0.9}} />
             </ArrowButtonInnerContainer>
         </TouchableNativeFeedback>
     </ArrowButtonOuterContainer>
 }
 
 const DateOuterContainer = styled.View`
-    border-radius: ${borderRadius}px;
     overflow: hidden;
     flex: 1;
 `
 const DateInnerContainer = styled.View`
     ${Centered}
-    height: ${size}px;
     padding: 0 20px;
     background-color: ${props=>props.theme.colors.lighterElement};
 `
@@ -67,10 +72,19 @@ function toLocalDate(date: Date){
 
 function DateButton(){
     const state = substitutionsState.use();
+    const { height, borderRadius } = useControlPanelSizes();
 
-    return <DateOuterContainer>
+    return <DateOuterContainer
+        style={{
+            borderRadius
+        }}
+    >
         <TouchableNativeFeedback>
-            <DateInnerContainer>
+            <DateInnerContainer
+                style={{
+                    height
+                }}
+            >
                 <DateText
                     numberOfLines={1}
                 >{toLocalDate(state.date)}</DateText>

@@ -129,7 +129,10 @@ export function LessonModal(){
         animationType="fade"
         visible={data != undefined}
         transparent={true}
+        navigationBarTranslucent={true}
+        statusBarTranslucent={true}
         onRequestClose={hide}
+        presentationStyle="fullScreen"
     >
         <TouchableWithoutFeedback
             onPress={hide}

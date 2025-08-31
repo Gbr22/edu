@@ -28,7 +28,7 @@ export function HomeScreen(){
             isFirstLoad = false;
             getLastSchoolId().then(schoolId=>{
                 if (schoolId){
-                    //openSchool(navigation,schoolId);
+                    openSchool(navigation,schoolId);
                     idInputStore.getState().setSchoolId(schoolId);
                 }
                 setTimeout(()=>{

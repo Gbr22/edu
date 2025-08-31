@@ -58,10 +58,11 @@ export function TimetableViewerScreen(){
     return <FillView>
         <LessonModal />
         <ScrollView
-            style={{
+            contentContainerStyle={{
                 paddingTop: insets.top,
                 paddingLeft: insets.left,
                 paddingRight: insets.right,
+                paddingBottom: insets.bottom,
             }}
         >
             <CenteredView>

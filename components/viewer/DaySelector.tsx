@@ -6,6 +6,7 @@ import { useGlobalStore } from '../../state/GlobalStore'
 import styled from 'styled-components/native';
 import { Centered } from '../../styles/styles';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useFontScale } from '../../fontScale';
 
 const Container = styled.View`
     ${Centered}
@@ -17,11 +18,8 @@ const Container = styled.View`
 const DayOuter = styled.View`
     margin: 0 15px;
 `
-let circleSize = 30;
 const DayInner = styled.View<{ isActive: boolean }>`
     ${Centered}
-    width: ${circleSize}px;
-    height: ${circleSize}px;
     background-color: ${({ isActive })=>isActive ? "#0074D921" : "transparent"};
 `
 const DayText = styled.Text<{ isActive: boolean }>`
@@ -48,10 +46,13 @@ export function DaySelector({ pagerRef }: Props){
     const days = timetable?.days;
     const selectedDay = useDaySelectorStore(state=>state.selectedDay);
     const insets = useSafeAreaInsets();
+    const fontScale = useFontScale();
+    const height = 50 * fontScale;
+    const circleSize = 30;
 
     return <Container
         style={{
-            height: 50 + insets.bottom,
+            height: height + insets.bottom,
             paddingBottom: insets.bottom,
             paddingLeft: insets.left,
             paddingRight: insets.right,
@@ -70,7 +71,13 @@ export function DaySelector({ pagerRef }: Props){
                         overflow: 'hidden',
                     }}
                 >
-                    <DayInner isActive={isActive}>
+                    <DayInner
+                        isActive={isActive}
+                        style={{
+                            height: circleSize * fontScale,
+                            width: circleSize * fontScale,
+                        }}
+                    >
                         <DayText isActive={isActive}>{day.shortName}</DayText>
                     </DayInner>
                 </TouchableOpacity>

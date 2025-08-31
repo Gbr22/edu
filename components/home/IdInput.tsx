@@ -7,6 +7,7 @@ import { fetch as getNetInfo } from "@react-native-community/netinfo";
 import { doesSchoolExistInCache } from "../../storage/cache";
 import styled, { css } from "styled-components/native";
 import { Centered } from "../../styles/styles";
+import { useFontScale } from "../../fontScale";
 
 interface State {
     schoolId: string
@@ -42,8 +43,7 @@ export const idInputStore = create<State>(set=>({
     },
 }))
 
-const inputHeight = 45;
-const borderRadius = 12;
+
 
 const Container = styled.View`
     ${Centered}
@@ -55,8 +55,6 @@ const UrlContainer = styled.View`
     ${Centered}
     flex-direction: row;
     background-color: ${props=>props.theme.colors.lightElement};
-    height: ${inputHeight}px;
-    border-radius: ${borderRadius}px;
     padding: 0 14px;
     flex-shrink: 1;
 `;
@@ -78,14 +76,11 @@ const Input = styled.TextInput<{ isValidSchoolId: boolean | undefined }>`
     color: ${({ isValidSchoolId, theme })=>isValidSchoolId == false ? theme.colors.error : theme.colors.primary};
 `
 const ButtonOuter = styled.View`
-    border-radius: ${borderRadius}px;
     overflow: hidden;
     margin-left: 7px;
 `
 const ButtonInner = styled.View<{ isValidSchoolId: boolean | undefined }>`
     ${Centered}
-    height: ${inputHeight}px;
-    width: ${inputHeight}px;
     background-color: black;
     background-color: ${({isValidSchoolId, theme})=>{
         if (isValidSchoolId == true){
@@ -99,6 +94,10 @@ const ButtonInner = styled.View<{ isValidSchoolId: boolean | undefined }>`
 `;
 
 export function IdInput(){
+    const fontScale = useFontScale();
+    const inputHeight = 45 * fontScale;
+    const borderRadius = 12 * fontScale;
+
     const { schoolId, isValidSchoolId, setSchoolId } = idInputStore();
 
     let navigation = useNavigation();
@@ -112,7 +111,12 @@ export function IdInput(){
     let Icon = isValidSchoolId == false ? X : ArrowRight;
 
     return <Container>
-        <UrlContainer>
+        <UrlContainer
+            style={{
+                height: inputHeight,
+                borderRadius,
+            }}
+        >
             <UrlText>http://</UrlText>
             <Input
                 isValidSchoolId={isValidSchoolId}
@@ -126,7 +130,11 @@ export function IdInput(){
             ></Input>
             <UrlText>.edupage.org</UrlText>
         </UrlContainer>
-        <ButtonOuter>
+        <ButtonOuter
+            style={{
+                borderRadius,
+            }}
+        >
             <TouchableNativeFeedback
                 onPress={()=>{
                     if (isValidSchoolId){
@@ -136,9 +144,15 @@ export function IdInput(){
                     }
                 }}
             >
-                <ButtonInner isValidSchoolId={isValidSchoolId}>
-                    { isLoading && <ActivityIndicator size={"small"} color={"#fff"} /> }
-                    { !isLoading && <Icon width={25} color={"#fff"}></Icon> }
+                <ButtonInner
+                    isValidSchoolId={isValidSchoolId}
+                    style={{
+                        height: inputHeight,
+                        width: inputHeight,
+                    }}
+                >
+                    { isLoading && <ActivityIndicator size={20*fontScale} color={"#fff"} /> }
+                    { !isLoading && <Icon width={25*fontScale} color={"#fff"}></Icon> }
                 </ButtonInner>
             </TouchableNativeFeedback>
         </ButtonOuter>

@@ -9,6 +9,7 @@ import { Substitutions } from './Substitutions';
 import { useEffect } from 'react';
 import { globalState, updateTimetable } from '../state/GlobalStore';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useFontScale } from '../fontScale';
 
 type PageId = "classes" | "substitutions";
 
@@ -33,18 +34,19 @@ interface MenuItemProps {
     pageId?: string
 }
 
-function MenuItem(props: MenuItemProps){
+function MenuItem(props: MenuItemProps) {
     const theme = useThemeContext();
     const Icon = props.icon;
     const selectedPage = useSelectedPage().selectedPage;
     const isSelected = selectedPage === props.pageId;
+    const fontScale = useFontScale();
 
     return <View>
         <TouchableOpacity
             onPress={props.onPress}
         >
             <Icon
-                width={35}
+                width={35 * fontScale}
                 color={isSelected ? theme.colors.navForegroundActive : theme.colors.foreground}
             />
         </TouchableOpacity>
@@ -60,12 +62,14 @@ function switchPage(pageId: PageId){
 }
 
 function Menu(){
+    const fontScale = useFontScale();
+    const height = 50 * fontScale;
     const insets = useSafeAreaInsets();
 
     return <MenuContainer
         style={{
             paddingBottom: insets.bottom,
-            height: 50 + insets.bottom,
+            height: height + insets.bottom,
             paddingLeft: insets.left,
             paddingRight: insets.right,
         }}

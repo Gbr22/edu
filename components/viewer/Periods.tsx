@@ -3,11 +3,10 @@ import { View, Text } from "react-native"
 import { useGlobalStore } from "../../state/GlobalStore";
 import styled from "styled-components/native";
 import { Centered } from "../../styles/styles";
-import { Sizes } from "./Sizes";
+import { Sizes, useRowHeight } from "./Sizes";
 
 const Period = styled.View`
     ${Centered}
-    height: ${Sizes.rowHeight}px;
     margin-bottom: ${Sizes.gap}px;
 `
 const PeriodText = styled.Text`
@@ -18,12 +17,18 @@ const PeriodText = styled.Text`
 
 export function Periods() {
     const { timetable } = useGlobalStore();
+    const rowHeight = useRowHeight();
 
     return <View style={{
         width: 30,
     }}>
         { timetable?.periods.map(period=>{
-            return <Period key={period.id}>
+            return <Period
+                key={period.id}
+                style={{
+                    height: rowHeight,
+                }}
+            >
                 <PeriodText>{period.name}</PeriodText>
             </Period>
         }) }

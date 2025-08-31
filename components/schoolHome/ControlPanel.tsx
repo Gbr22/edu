@@ -5,14 +5,12 @@ import { Settings } from "react-native-feather";
 import { Centered, CenteredView } from "../../styles/styles";
 import styled from "styled-components/native";
 import { useThemeContext } from "../../styles/ThemeContext";
-
-let size = 36.5;
-let borderRadius = 11;
+import { useFontScale } from "../../fontScale";
+import { useClassSize, useControlPanelSizes } from "../viewer/Sizes";
 
 const ControlPanelOuter = styled.View`
     ${Centered}
     flex-direction: row;
-    width: 305px;
     margin: 20px;
 `
 const VersionText = styled.Text`
@@ -23,37 +21,52 @@ const VersionText = styled.Text`
 const SettingsButton = styled.View`
     ${Centered}
     background-color: ${props=>props.theme.colors.lighterElement};
-    border-radius: ${borderRadius}px;
-    width: ${size}px;
-    height: ${size}px;
 `
 const VersionOuterContainer = styled.View`
-    border-radius: ${borderRadius}px;
     overflow: hidden;
     flex: 1;
     margin-right: 7px;
 `
 const VersionInnerContainer = styled.View`
     ${Centered}
-    height: ${size}px;
     padding: 0 20px;
     background-color: ${props=>props.theme.colors.lighterElement};
 `
 
 export function ControlPanel(){
-
+    const { height, borderRadius } = useControlPanelSizes();
+    const fontScale = useFontScale();
     const { versions } = useGlobalStore();
     const theme = useThemeContext();
+    const classSize = useClassSize();
+    const width = classSize.size * 3 + 20 * 2;
 
     if (!versions || !versions.current) {
         return <></>
     }
     
-    return <CenteredView>
-        <ControlPanelOuter>
-            <VersionOuterContainer>
+    return <CenteredView
+        style={{
+            paddingHorizontal: 20
+        }}
+    >
+        <ControlPanelOuter
+            style={{
+                width,
+                maxWidth: '100%',
+            }}
+        >
+            <VersionOuterContainer
+                style={{
+                    borderRadius,
+                }}
+            >
                 <TouchableNativeFeedback>
-                    <VersionInnerContainer>
+                    <VersionInnerContainer
+                        style={{
+                            height
+                        }}
+                    >
                         <VersionText
                             numberOfLines={1}
                         >{versions.current.text}</VersionText>
@@ -61,8 +74,14 @@ export function ControlPanel(){
                 </TouchableNativeFeedback>
             </VersionOuterContainer>
             <Link screen={"Home"} params={{}}>
-                <SettingsButton>
-                    <Settings width={18} color={theme.colors.foreground} style={{opacity: 0.9}} />
+                <SettingsButton
+                    style={{
+                        height,
+                        width: height,
+                        borderRadius,
+                    }}
+                >
+                    <Settings width={18 * fontScale} color={theme.colors.foreground} style={{opacity: 0.9}} />
                 </SettingsButton>
             </Link>
         </ControlPanelOuter>

@@ -7,19 +7,16 @@ import { SchoolHomeRoute, useNavigation } from "../../navigation";
 import { useGlobalStore } from "../../state/GlobalStore";
 import { Centered } from "../../styles/styles";
 import { useThemeContext } from "../../styles/ThemeContext";
+import { useFontScale } from "../../fontScale";
+import { useClassSize } from "../viewer/Sizes";
 
-const circleSize = 49;
 
 const ColoredCircle = styled.View<{ color: string }>`
     position: absolute;
-    border-radius: ${circleSize}px;
-    width: ${circleSize}px;
-    height: ${circleSize}px;
     background-color: ${props=>props.color};
 `
 
 const borderWidth = 1;
-const size = 87;
 const gap = 20;
 
 const OuterContainer = styled.View`
@@ -29,14 +26,10 @@ const OuterContainer = styled.View`
     overflow: hidden;
     margin: 0 ${gap/2}px;
     margin-bottom: ${gap}px;
-    width: ${size+borderWidth}px;
-    height: ${size+borderWidth}px;
 `
 
 const InnerContainer = styled.View<{ color: string }>`
     ${Centered}
-    width: ${size}px;
-    height: ${size}px;
     background-color: ${({color})=>color};
 `
 
@@ -54,11 +47,12 @@ interface Props {
 }
 
 export function Class({data}: Props){
-    let route = useRoute<SchoolHomeRoute>();
-    let navigation = useNavigation();
-    let schoolId = route.params.schoolId;
+    const route = useRoute<SchoolHomeRoute>();
+    const navigation = useNavigation();
+    const schoolId = route.params.schoolId;
     const { versions } = useGlobalStore();
     const theme = useThemeContext();
+    const { circleSize, size } = useClassSize();
 
     const circleColor = theme.isDark ?
         `hsl(${Math.floor(seedrandom(data.name)()*360)}, 40%, 20%)` :
@@ -68,7 +62,12 @@ export function Class({data}: Props){
         `hsla(${Math.floor(seedrandom(data.name)()*360)}, 40%, 20%, 0.1)` :
         `hsla(${Math.floor(seedrandom(data.name)()*360)}, 100%, 88%, 0.1)`
 
-    return <OuterContainer>
+    return <OuterContainer
+        style={{
+            width: size + borderWidth,
+            height: size + borderWidth,
+        }}
+    >
         <Link
             screen={"TimetableViewer"}
             params={{
@@ -88,9 +87,20 @@ export function Class({data}: Props){
                     });
                 }}
             >
-                <InnerContainer color={outerColor}>
+                <InnerContainer
+                    color={outerColor}
+                    style={{
+                        width: size,
+                        height: size,
+                    }}
+                >
                     <ColoredCircle
                         color={circleColor}
+                        style={{
+                            width: circleSize,
+                            height: circleSize,
+                            borderRadius: circleSize
+                        }}
                     >
                     </ColoredCircle>
                     <ClassText>{data.shortName}</ClassText>
