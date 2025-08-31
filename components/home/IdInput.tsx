@@ -3,13 +3,10 @@ import { create } from "zustand";
 import { X, ArrowRight } from "react-native-feather";
 import { openSchool, useNavigation } from "../../navigation";
 import { doesSchoolExist } from "../../data/api";
-import { useGlobalStore } from "../../state/GlobalStore";
 import { fetch as getNetInfo } from "@react-native-community/netinfo";
 import { doesSchoolExistInCache } from "../../storage/cache";
 import styled, { css } from "styled-components/native";
 import { Centered } from "../../styles/styles";
-import { useEffect } from "react";
-import { getLastSchoolId, setLastSchoolId } from "../../storage/preferences";
 
 interface State {
     schoolId: string
@@ -63,10 +60,10 @@ const UrlContainer = styled.View`
     padding: 0 14px;
     flex-shrink: 1;
 `;
-const TextStyle = css`
+const TextStyle = (css`
     font-size: 16px;
     color: ${({theme})=>theme.colors.foreground};
-`;
+`);
 const UrlText = styled.Text`
     ${TextStyle}
 `
@@ -99,7 +96,7 @@ const ButtonInner = styled.View<{ isValidSchoolId: boolean | undefined }>`
             return "#4d4d4d";
         }
     }};
-`
+`;
 
 export function IdInput(){
     const { schoolId, isValidSchoolId, setSchoolId } = idInputStore();
@@ -119,9 +116,9 @@ export function IdInput(){
             <UrlText>http://</UrlText>
             <Input
                 isValidSchoolId={isValidSchoolId}
+                autoCapitalize="none"
                 onChangeText={(text)=>{
-                    let schoolId = text.toLocaleLowerCase();
-                    setSchoolId(schoolId);
+                    setSchoolId(text);
                 }}
                 placeholder={"id"}
                 placeholderTextColor={"#6c9393"}
@@ -133,7 +130,9 @@ export function IdInput(){
             <TouchableNativeFeedback
                 onPress={()=>{
                     if (isValidSchoolId){
-                        openSchool(navigation,schoolId);
+                        const newSchoolId = schoolId.toLowerCase();
+                        setSchoolId(newSchoolId);
+                        openSchool(navigation,newSchoolId);
                     }
                 }}
             >
