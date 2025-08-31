@@ -132,7 +132,7 @@ export function LessonModal(){
         navigationBarTranslucent={true}
         statusBarTranslucent={true}
         onRequestClose={hide}
-        presentationStyle="fullScreen"
+        presentationStyle="overFullScreen"
     >
         <TouchableWithoutFeedback
             onPress={hide}

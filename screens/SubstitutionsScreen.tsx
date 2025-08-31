@@ -1,24 +1,26 @@
 import { useEffect } from "react";
 import { globalState } from "../state/GlobalStore";
-import { SubstitutionEntry } from "../components/substitutions/SubstitutionEntry";
+import { SubstitutionEntry } from "../components/substitutions/SubstitutionsEntry";
 import styled from "styled-components/native";
 import { LoadingScreen } from "./LoadingScreen";
 import { ErrorScreen } from "./ErrorScreen";
 import { substitutionsState } from "../state/substitutionsState";
-import { SubstitutionControls } from "../components/substitutions/SubstitutionControls";
+import { SubstitutionControls } from "../components/substitutions/SubstitutionsControlPanel";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { ScrollView, View } from "react-native";
 
-const Data = styled.View`
+const Data = styled(View)`
     gap: 20px;
     padding: 20px;
+    padding-top: 0;
 `
 
-const ContentWrapper = styled.View`
+const ContentWrapper = styled(View)`
     flex: 1;
     height: 100%;
 `
 
-const RootStyles = styled.ScrollView`
+const RootStyles = styled(ScrollView)`
     flex-direction: column;
     height: 100%;
 `
@@ -29,10 +31,10 @@ function SubstitutionsContainer(props: { children: any }){
     return <RootStyles
         contentContainerStyle={{
             minHeight: "100%",
-            paddingTop: insets.top,
             paddingLeft: insets.left,
             paddingRight: insets.right,
         }}
+        stickyHeaderIndices={[0]}
     >
         {props.children}
     </RootStyles>
@@ -77,9 +79,9 @@ export function Substitutions(){
     return <SubstitutionsContainer>
         <SubstitutionControls />
         <Data>
-        { state.currentSubstitutions?.entries.map(entry=>{
-            return <SubstitutionEntry data={entry} key={entry.className} />
-        }) }
+            { state.currentSubstitutions?.entries.map(entry=>{
+                return <SubstitutionEntry data={entry} key={entry.className} />
+            }) }
         </Data>
     </SubstitutionsContainer>
 }

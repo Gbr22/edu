@@ -1,25 +1,25 @@
 import { useRoute } from '@react-navigation/native';
-import { ScrollView, Text, TouchableNativeFeedback, View } from 'react-native';
-import { TimetableViewerRoute, useNavigation } from '../navigation';
+import { ScrollView, View } from 'react-native';
+import { TimetableViewerRoute } from '../navigation';
 import { createRef, useEffect } from 'react';
 import { globalState, updateTimetable } from '../state/GlobalStore';
 import { DaySelector, useDaySelectorStore } from '../components/viewer/DaySelector';
 import { Day } from '../components/viewer/Day';
 import PagerView from 'react-native-pager-view';
-import { Centered, CenteredView, FillView } from '../styles/styles';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { CenteredView, FillView } from '../styles/styles';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LessonModal } from '../components/viewer/LessonModal';
 import { ErrorScreen } from './ErrorScreen';
 import { LoadingScreen } from './LoadingScreen';
 import styled from 'styled-components/native';
-import { BackButton } from '../components/viewer/BackButton';
+import { BackButton } from '../components/viewer/TimetableViewerControlPanel';
 import { Periods } from '../components/viewer/Periods';
 
-const TimetableOuter = styled.View`
+const TimetableOuter = styled(View)`
     flex-grow: 1;
     flex-direction: row;
 `
-const TimetableInner = styled.View`
+const TimetableInner = styled(View)`
     flex-grow: 1;
 `
 const Pager = styled(PagerView)`
@@ -59,15 +59,13 @@ export function TimetableViewerScreen(){
         <LessonModal />
         <ScrollView
             contentContainerStyle={{
-                paddingTop: insets.top,
                 paddingLeft: insets.left,
                 paddingRight: insets.right,
                 paddingBottom: insets.bottom,
             }}
+            stickyHeaderIndices={[0]}
         >
-            <CenteredView>
-                <BackButton classData={classData} />
-            </CenteredView>
+            <BackButton classData={classData} />
             <TimetableOuter>
                 <Periods />
                 <TimetableInner>

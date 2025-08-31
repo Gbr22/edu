@@ -1,15 +1,12 @@
-import { Link, useRoute } from '@react-navigation/native';
-import { useEffect } from 'react';
-import { Button, ScrollView, Text, TouchableNativeFeedback, TouchableOpacity, View } from 'react-native';
-import { SchoolHomeRoute } from '../navigation';
-import { globalState, updateTimetable, useGlobalStore } from '../state/GlobalStore';
-import { ControlPanel } from '../components/schoolHome/ControlPanel';
+import { ScrollView, View } from 'react-native';
+import { globalState, useGlobalStore } from '../state/GlobalStore';
+import { ControlPanel } from '../components/classSelector/ClassSelectorControlPanel';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { NoTimetablesScreen } from './NoTimetablesScreen';
 import { ErrorScreen } from './ErrorScreen';
 import { LoadingScreen } from './LoadingScreen';
 import { OverlayView } from '../styles/styles';
-import { Class } from '../components/schoolHome/Class';
+import { Class } from '../components/classSelector/ClassSelectorEntry';
 import styled from 'styled-components/native';
 
 const ClassesContainer = styled.View`
@@ -44,13 +41,13 @@ export function ClassSelector(){
         </OverlayView>
         <ScrollView
             style={{
-                paddingTop: insets.top,
                 paddingLeft: insets.left,
                 paddingRight: insets.right,
             }}
             contentContainerStyle={{
                 paddingBottom: insets.bottom + 20,
             }}
+            stickyHeaderIndices={[0]}
         >
             <ControlPanel />
             <ClassesContainer>

@@ -7,6 +7,7 @@ import styled from "styled-components/native";
 import { useThemeContext } from "../../styles/ThemeContext";
 import { useFontScale } from "../../fontScale";
 import { useClassSize, useControlPanelSizes } from "../viewer/Sizes";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const ControlPanelOuter = styled.View`
     ${Centered}
@@ -40,6 +41,7 @@ export function ControlPanel(){
     const theme = useThemeContext();
     const classSize = useClassSize();
     const width = classSize.size * 3 + 20 * 2;
+    const insets = useSafeAreaInsets();
 
     if (!versions || !versions.current) {
         return <></>
@@ -47,7 +49,9 @@ export function ControlPanel(){
     
     return <CenteredView
         style={{
-            paddingHorizontal: 20
+            paddingHorizontal: 20,
+            backgroundColor: theme.colors.glassBackground,
+            paddingTop: insets.top,
         }}
     >
         <ControlPanelOuter

@@ -1,10 +1,12 @@
 import { DefaultTheme as NavigationLight } from '@react-navigation/native';
 import { type Theme } from './theme';
+import Color from 'color';
 
 export const lightTheme = {
     isDark: false,
     colors: {
         background: "#ffffff",
+        glassBackground: Color("#ffffff").alpha(0.9).string(),
         navBackground: "#f2f2f2",
         foreground: "#000000",
         statusBar: "rgba(255,255,255,0.8)",

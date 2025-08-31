@@ -1,10 +1,12 @@
 import { DarkTheme as NavigationDark } from '@react-navigation/native';
 import { type Theme } from './theme';
+import Color from 'color';
 
 export const darkTheme = {
     isDark: true,
     colors: {
         background: "#18181b",
+        glassBackground: Color("#18181b").alpha(0.9).string(),
         navBackground: "#242429",
         foreground: "#e4e4e7",
         statusBar: "rgba(24, 24, 27, 0.8)",

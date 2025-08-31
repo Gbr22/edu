@@ -6,6 +6,7 @@ import { useThemeContext } from "../../styles/ThemeContext";
 import { substitutionsState } from "../../state/substitutionsState";
 import { useControlPanelSizes } from "../viewer/Sizes";
 import { useFontScale } from "../../fontScale";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const ArrowButtonOuterContainer = styled.View`
     background-color: ${props=>props.theme.colors.lighterElement};
@@ -62,8 +63,6 @@ const DateText = styled.Text`
 const ControlContainer = styled.View`
     flex-direction: row;
     gap: 7px;
-    padding: 20px;
-    padding-bottom: 0;
 `
 
 function toLocalDate(date: Date){
@@ -94,7 +93,17 @@ function DateButton(){
 }
 
 export function SubstitutionControls(){
-    return <ControlContainer>
+    const insets = useSafeAreaInsets();
+    const padding = 20;
+    const theme = useThemeContext();
+
+    return <ControlContainer
+        style={{
+            padding,
+            paddingTop: insets.top + padding,
+            backgroundColor: theme.colors.glassBackground,
+        }}
+    >
         <ArrowButton direction={-1} />
         <DateButton />
         <ArrowButton direction={+1} />
